@@ -2,11 +2,13 @@
   "name": "client",
   "version": "1.0.0",
   "description": "Private Desktop \u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[C\u001b[C\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[CAI Assistant",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
-  },
+  "main": "electron/main.js",
+  "homepage": ".",
+"scripts": {
+  "start": "react-scripts start",
+  "electron-start": "electron .",
+  "electron-dev": "npx electronmon --trace-warnings ."
+},
   "keywords": [
     "electron",
     "react",
