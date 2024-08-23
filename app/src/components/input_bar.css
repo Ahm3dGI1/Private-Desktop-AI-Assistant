@@ -1,0 +1,35 @@
+.in-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.in-text{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 50px;
+    padding: 0 10px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+.in-bar{
+    background: none;
+    width: 80%;
+    height: 100%;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor:text;
+}
+
+.in-att button{
+    margin: 5px;
+    outline: none;
+    border: none;
+}

@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "Private Desktop \u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[C\u001b[C\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[CAI Assistant",
   "main": "electron/main.js",
-  "homepage": ".",
 "scripts": {
   "start": "react-scripts start",
-  "electron-start": "electron .",
-  "electron-dev": "npx electronmon --trace-warnings ."
+  "electron-start": "app/react-scripts start && electron .",
+  "electron-dev": "app/react-scripts start && npx electronmon ."
 },
   "keywords": [
     "electron",
