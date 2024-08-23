@@ -1,4 +1,8 @@
 .in-container{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,10 +13,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: var(--secondary-color);
     width: 90%;
     height: 50px;
     padding: 0 10px;
-    border: 1px solid #000;
     border-radius: 20px;
     font-size: 16px;
 }
@@ -24,12 +28,17 @@
     outline: none;
     border: none;
     border-radius: 20px;
+    color: var(--text-color);
     font-size: 16px;
     cursor:text;
 }
 
-.in-att button{
+button{
     margin: 5px;
+    background: none;
     outline: none;
     border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--tertiary-color);
 }

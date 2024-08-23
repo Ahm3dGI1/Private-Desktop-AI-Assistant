@@ -4,6 +4,8 @@ import "./input_bar.css";
 
 import { FaCamera } from "react-icons/fa";
 import { GrAttachment } from "react-icons/gr";
+import { FaMicrophone } from "react-icons/fa";
+
 
 function InputBar() {
     return (
@@ -16,7 +18,7 @@ function InputBar() {
                         <button className="in-cam"><GrAttachment /></button>
                     </div>
                 </div>
-                <button className="in-voice"></button>
+                <button className="in-voice"><FaMicrophone /></button>
             </div>
         </>
     );

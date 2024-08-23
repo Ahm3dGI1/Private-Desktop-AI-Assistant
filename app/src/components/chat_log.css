@@ -1,0 +1,11 @@
+.chat-log{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    overflow-y: auto;
+    height: 82vh;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
