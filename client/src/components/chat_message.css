@@ -1,0 +1,21 @@
+.chat-message{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: fit-content;
+    max-width: 70%;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message.user{
+    background-color: var(--tertiary-color);   
+    text-align: right;
+    margin-left: auto;
+}
+
+.chat-message.ai{
+    background-color: var(--primary-color);   
+}
