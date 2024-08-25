@@ -7,7 +7,6 @@ import './App.css';
 import InputBar from './components/input_bar';
 import ChatLog from './components/chat_log';
 
-
 function App() {
   const [prompt, setPrompt] = useState<string>('');
   const [messages, setMessages] = useState<{ text: string, sender: string }[]>([]);
@@ -17,19 +16,23 @@ function App() {
     if (prompt.trim() === '') return; // Don't send empty messages
 
     try {
-      const currPrompt = prompt
+      const currPrompt = prompt;
       setPrompt(''); // Clear input field
       const userMessage = { text: currPrompt, sender: "User" };
       setMessages(prevMessages => [...prevMessages, userMessage]);
 
-      const data = await generateCompletion(currPrompt);
-      const aiMessage = { text: data, sender: "AI" };
+      // Pass a callback to handle streaming messages
+      const aiMessage = { text: "", sender: "AI" };
       setMessages(prevMessages => [...prevMessages, aiMessage]);
+      await generateCompletion(currPrompt, (newMessage: string) => {
+        aiMessage.text += newMessage;
+        setMessages(prevMessages => [...prevMessages]);
+      });
 
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  };
 
 
 

@@ -2,10 +2,22 @@
     display: flex;
     flex-direction: column;
     margin: 20px;
-    overflow-y: auto;
+    overflow-y: scroll;
     height: 82vh;
     padding: 10px;
     background-color: var(--secondary-color);
+    border: solid 1px var(--secondary-color);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-log::-webkit-scrollbar {
+    width: 5px;
+    background-color: none;
+    border-radius: 10px;
+}
+
+.chat-log::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 10px;
 }
