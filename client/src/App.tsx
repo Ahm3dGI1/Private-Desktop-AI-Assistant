@@ -17,12 +17,15 @@ function App() {
     if (prompt.trim() === '') return; // Don't send empty messages
 
     try {
-      const userMessage = { text: prompt, sender: "User" };
-      const data = await generateCompletion(prompt);
-      const aiMessage = { text: data.choices[0].text, sender: "AI" };
-
-      setMessages(prevMessages => [...prevMessages, userMessage, aiMessage]);
+      const currPrompt = prompt
       setPrompt(''); // Clear input field
+      const userMessage = { text: currPrompt, sender: "User" };
+      setMessages(prevMessages => [...prevMessages, userMessage]);
+
+      const data = await generateCompletion(currPrompt);
+      const aiMessage = { text: data, sender: "AI" };
+      setMessages(prevMessages => [...prevMessages, aiMessage]);
+
     } catch (error) {
       console.error('Error:', error);
     }

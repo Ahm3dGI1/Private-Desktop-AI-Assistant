@@ -6,7 +6,8 @@ export const generateCompletion = async (prompt)=> {
         },
         body: JSON.stringify({
             "model": "llama3.1",
-            "prompt": prompt
+            "prompt": prompt,
+            "stream": false,
         }),
     });
     
@@ -15,6 +16,6 @@ export const generateCompletion = async (prompt)=> {
     }
 
     const data = await response.json();
+    console.log(data.response)
     return data.response;
-
 }
