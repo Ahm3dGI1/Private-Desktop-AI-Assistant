@@ -9,7 +9,7 @@ import ChatLog from './components/chat_log';
 
 function App() {
   const [prompt, setPrompt] = useState<string>('');
-  const [messages, setMessages] = useState<{ text: string, sender: string }[]>([]);
+  const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
 
 
   const handleInput = async () => {
@@ -17,24 +17,23 @@ function App() {
 
     try {
       const currPrompt = prompt;
-      setPrompt(''); // Clear input field
-      const userMessage = { text: currPrompt, sender: "User" };
-      setMessages(prevMessages => [...prevMessages, userMessage]);
+      setPrompt('');
 
-      // Pass a callback to handle streaming messages
-      const aiMessage = { text: "", sender: "AI" };
-      setMessages(prevMessages => [...prevMessages, aiMessage]);
-      await generateCompletion(currPrompt, (newMessage: string) => {
-        aiMessage.text += newMessage;
+      const userMessage = { role: "user", content: currPrompt };
+      const aiMessage = { role: "assistant", content: "" };
+      const newMessages = [...messages, userMessage, aiMessage];
+      setMessages(newMessages);
+
+      await generateCompletion(newMessages.slice(0, -1), (updateMessage: string) => {
+        aiMessage.content += updateMessage;
         setMessages(prevMessages => [...prevMessages]);
       });
+
 
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
-
 
   return (
     <div className="App">

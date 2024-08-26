@@ -5,7 +5,7 @@ import ChatMessage from "./chat_message";
 import "./chat_log.css";
 
 interface ChatLogProps {
-    messages: { text: string, sender: string }[];
+    messages: { role: string, content: string }[];
 }
 
 const ChatLog: React.FC<ChatLogProps> = ({ messages }) => {
@@ -15,8 +15,8 @@ const ChatLog: React.FC<ChatLogProps> = ({ messages }) => {
                 {messages.map((message, index) => (
                     <ChatMessage
                         key={index}
-                        message={message.text}
-                        sender={message.sender}
+                        message={message.content}
+                        sender={message.role}
                     />
                 ))}
             </div>

@@ -16,6 +16,6 @@
     margin-left: auto;
 }
 
-.chat-message.ai{
+.chat-message.assistant{
     background-color: var(--primary-color);   
 }
