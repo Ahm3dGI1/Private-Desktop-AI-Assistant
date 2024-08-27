@@ -7,9 +7,17 @@ import './App.css';
 import InputBar from './components/input_bar';
 import ChatLog from './components/chat_log';
 
+
+// Define the system message to set the behavior of the AI
+const SYSTEM_MESSAGE = {
+  role: "system",
+  content: "You are a helpful assistant. Please respond concisely and clearly to the user's queries and start each message with a Yoooo and end it with an Ayoooooo."
+};
+
+
 function App() {
   const [prompt, setPrompt] = useState<string>('');
-  const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
+  const [messages, setMessages] = useState([SYSTEM_MESSAGE]);
 
   const handleInput = async () => {
     if (prompt.trim() === '') return; // Don't send empty messages
