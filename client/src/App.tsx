@@ -11,7 +11,6 @@ function App() {
   const [prompt, setPrompt] = useState<string>('');
   const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
 
-
   const handleInput = async () => {
     if (prompt.trim() === '') return; // Don't send empty messages
 
@@ -26,12 +25,11 @@ function App() {
 
       await generateCompletion(newMessages.slice(0, -1), (updateMessage: string) => {
         aiMessage.content += updateMessage;
-        setMessages(prevMessages => [...prevMessages]);
+        setMessages(prevMessages => [...prevMessages]); // Trigger re-render with updated messages
       });
 
-
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error); // Log any errors
     }
   };
 

@@ -1,6 +1,6 @@
 export const generateCompletion = async (messages, updateMessage) => {
-    console.log('Sending messages:', messages);
 
+    // Send a POST request to Ollama Chat Generator API
     const response = await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
         body: JSON.stringify({
@@ -14,17 +14,20 @@ export const generateCompletion = async (messages, updateMessage) => {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    // Since the response is a JSON stream, I used the ReadableStream API to read it
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let content = '';
 
-    while (true){
+    while (true) {
         const { done, value } = await reader.read();
 
+        // The last json in the stream will have done as true
         if (done) {
             break;
         }
 
+        // Decode the chunk of data if it is not done
         const rawJson = decoder.decode(value);
         try {
             const json = JSON.parse(rawJson);
