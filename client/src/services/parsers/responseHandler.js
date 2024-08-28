@@ -6,5 +6,4 @@ export const responseHandler = async (response) => {
     }
     // ##[file]:<cmdType> <detail1> <detail2> ... ##[cmd]: <cmdType> <detail1> <detail2> ...
 
-    else if 
 }
