@@ -1,3 +1,5 @@
+import {responseHandler} from "./parsers/responseHandler.js";
+
 export const generateCompletion = async (messages, updateMessage) => {
     // Send a POST request to Ollama Chat Generator API
     const response = await fetch('http://localhost:11434/api/chat', {
@@ -9,7 +11,7 @@ export const generateCompletion = async (messages, updateMessage) => {
         }),
     });
 
-    if (!response.ok) {
+    if (!responseHandler(response)) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
