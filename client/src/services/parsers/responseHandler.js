@@ -19,6 +19,12 @@ export const responseHandler = async (message) => {
     let tasksList = tasksListString.split("\n");
     tasksList = tasksList.filter(task => task !== "");
 
+    for (let task of tasksList) {
+        if (task.includes("##[file-create]")){
+            fileCmdHandler(task);
+        }
+    }
+
     console.log(tasksListString)
     console.log(tasksList);
     return;
