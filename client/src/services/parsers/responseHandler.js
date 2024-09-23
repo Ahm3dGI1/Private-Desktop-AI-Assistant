@@ -1,17 +1,26 @@
 import { fileCmdHandler } from "./files.js"
 
-export const responseHandler = async (response) => {
-    if (!response.ok) {
-        return;
-    }
-
-    const json = await response.json();
-    let message = json.message.content;
+export const responseHandler = async (message) => {
 
     // Check if the message is a command
-    
+    let tasksListString;
+
+    let startIndexOfTask = message.indexOf("##[run-task]");
+    let endIndexOfTask = message.indexOf("##[end-task]");
 
 
-    // ##[file]:<cmdType> <detail1> <detail2> ... ##[cmd]: <cmdType> <detail1> <detail2> ...
+    if (startIndexOfTask === -1) {
+        return;
+    }
+    else{
+        tasksListString = message.substring(startIndexOfTask+12, endIndexOfTask-1);
+    }
+
+    let tasksList = tasksListString.split("\n");
+    tasksList = tasksList.filter(task => task !== "");
+
+    console.log(tasksListString)
+    console.log(tasksList);
+    return;
 
 }

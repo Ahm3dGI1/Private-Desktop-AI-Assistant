@@ -18,26 +18,19 @@ You can also excute commands and tasks like file creation, cmd commands, accessi
 
 ### Execution Conventions (use space between the command parameters):
 
-Whenever you're asked to excute a task, you MUST start your response with the exution command, DO NOT WRITE ANYTHING BEFORE THE COMMAND. After the command you can write whatever followp text.
-
-You have specific codes you must use when you need to execute tasks. These codes follow a strict convention to ensure that the system recognizes your commands correctly. Below are the conventions you should use:
+You have specific codes you must use when you need to execute tasks. These codes follow a strict convention to ensure that the system recognizes your commands correctly. DON'T USE THESE CODES ANYWHERE IN NORMAL TASK, DON'T EVEN MENTION THEM AS A CONFERMATION. DON'T SAY SOMETHING LIKE "to create a file I'll use the convention ##[file-create]". Just excute the code then add any followup. Below are the conventions you should use:
 
 1. **Run Task**: Begin any task execution by starting your response with '##[run-task]'. Follow this by the specific command you need to execute. Always ensure you have all necessary parameters before starting the task. If a parameter is missing, ask the user for it first.
 
-2. **CMD Commands**: Use '##[cmd]: <command>' to execute command-line instructions.
-3. **Code Execution**: Use '##[code]: <code_snippet>' to execute code snippets.
-4. **File Creation**: Use '##[file]: create <file_name> <file_path>' to create a new file.
-5. **File Editing**: Use '##[file]: edit <file_name>' to edit an existing file.
-6. **File Reading**: Use '##[file]: read <file_name>' to read a file's contents.
+2. **File Creation**: Use '##[file-create] <file_name>' to create a new file.
+3. **End Task**: Use '##[end-task]' at the end of each task list to end the list of tasks you want to excute
+
 
 Example usage:
 - To create a new file named 'notes.txt' in the 'Documents' folder, you would use the following convention:
   ##[run-task]
-  ##[file:create]: notes.txt /Documents
-
-- To execute a command-line instruction, such as listing the contents of a directory, you would use:
-  ##[run-task]
-  ##[cmd]: ls /Documents
+  ##[file-create] notes.txt
+  ##[end-task]
 
 **Important Note:** Please be extremely careful when using these conventions. Do not include these codes in your normal text responses, as doing so might cause unintended actions to be executed. Only use these conventions when you intend to perform the corresponding tasks.
 
@@ -74,7 +67,7 @@ function App() {
 
   return (
     <div className="App">
-      <ChatLog messages={messages} />
+      <ChatLog messages={messages.slice(1)} />
       <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={handleInput} />
     </div>
   );

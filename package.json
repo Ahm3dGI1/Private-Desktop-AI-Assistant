@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Private Desktop \u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[C\u001b[C\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[CAI Assistant",
   "main": "electron/main.js",
-"scripts": {
-  "start": "react-scripts start",
-  "electron-start": "app/react-scripts start && electron .",
-  "electron-dev": "app/react-scripts start && npx electronmon ."
-},
+  "scripts": {
+    "start": "react-scripts start",
+    "electron-start": "app/react-scripts start && electron .",
+    "electron-dev": "app/react-scripts start && npx electronmon ."
+  },
   "keywords": [
     "electron",
     "react",
@@ -19,6 +19,8 @@
   "author": "Ahmed G Ibrahim",
   "license": "MIT",
   "dependencies": {
-    "electron": "^32.0.1"
+    "electron": "^32.0.1",
+    "react": "^18.3.1",
+    "react-scripts": "^5.0.1"
   }
 }
