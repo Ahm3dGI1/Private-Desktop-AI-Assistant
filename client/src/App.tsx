@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { generateCompletion } from './services/ollama.js';
+import { generateCompletion } from '../../server/services/ollama.js';
 
 import './App.css';
 
