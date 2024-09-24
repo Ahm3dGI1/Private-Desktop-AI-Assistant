@@ -1,6 +1,6 @@
-import {responseHandler} from "../utils/parsers/responseHandler.js"
+const {responseHandler} = require("../utils/parsers/responseHandler.js")
 
-export const generateCompletion = async (messages, updateMessage) => {
+exports.generateCompletion = async (messages, updateMessage) => {
     // Send a POST request to Ollama Chat Generator API
     const response = await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
@@ -20,6 +20,7 @@ export const generateCompletion = async (messages, updateMessage) => {
     responseHandler(json.message.content);
     updateMessage(json.message.content);
 }
+
 
 
 // Trial 1

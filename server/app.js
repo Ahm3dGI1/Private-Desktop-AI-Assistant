@@ -1,13 +1,50 @@
-const fs = require('fs');
-const path = require('path');
-const bodyParser = require('body-parser');
 const express = require('express');
-const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
+const { fileCmdHandler } = require('./services/fileHandler');
+const { parseTasks } = require('./utils/parsers');
 const ollamaService = require('./services/ollama');
 
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Middleware to parse JSON request bodies
-app.use(express.json());
-app.use(bodyParser.json()); // For parsing incoming requests with JSON payloads
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/api/ollama', async (req, res) => {
+    const { messages } = req.body;
+
+    try {
+        const aiResponse = await ollamaService.generateCompletion(messages);
+        res.json(aiResponse);
+    } catch (error) {
+        console.error('Error generating AI response:', error);
+        res.status(500).json({ error: 'Failed to generate AI response' });
+    }
+});
+
+app.post('/api/tasks', async (req, res) => {
+    const { aiMessage } = req.body;
+
+    try {
+        const tasks = parseTasks(aiMessage);
+        
+        for (let task of tasks) {
+            if (task.type === 'file-create') {
+                await fileCmdHandler(task);
+            }
+        }
+
+        res.json({ status: 'Tasks executed successfully' });
+    } catch (error) {
+        console.error('Error executing tasks:', error);
+        res.status(500).json({ error: 'Failed to execute tasks' });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
