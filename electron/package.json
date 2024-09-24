@@ -2,7 +2,7 @@
   "name": "client",
   "version": "1.0.0",
   "description": "Private Desktop \u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[C\u001b[C\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[CAI Assistant",
-  "main": "electron/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
     "electron-start": "app/react-scripts start && electron .",
