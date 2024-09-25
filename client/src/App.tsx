@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import { generateCompletion } from '../../server/services/ollama.js';
 
@@ -55,10 +56,15 @@ function App() {
       const newMessages = [...messages, userMessage, aiMessage];
       setMessages(newMessages);
 
-      await generateCompletion(newMessages.slice(0, -1), (updateMessage: string) => {
-        aiMessage.content += updateMessage;
-        setMessages(prevMessages => [...prevMessages]); // Trigger re-render with updated messages
-      });
+      axios.post('http://localhost:5000/api/ollama',
+        {
+          messages: newMessages,
+          updateMessage: (updateMessage: string) => {
+            aiMessage.content += updateMessage;
+            setMessages(prevMessages => [...prevMessages]); // Trigger re-render with updated messages
+          }
+        }
+      );
 
     } catch (error) {
       console.error('Error:', error); // Log any errors

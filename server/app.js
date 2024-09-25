@@ -2,9 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const { fileCmdHandler } = require('./services/fileHandler');
-const { parseTasks } = require('./utils/parsers');
-const ollamaService = require('./services/ollama');
+const ollamaService = require('./services/ollama.js');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,10 +13,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/api/ollama', async (req, res) => {
-    const { messages } = req.body;
+    const { messages } = req.body.messages;
+    const {updateMessage} = req.body.updateMessage;
 
     try {
-        const aiResponse = await ollamaService.generateCompletion(messages);
+        const aiResponse = await ollamaService.generateCompletion(messages, updateMessage);
         res.json(aiResponse);
     } catch (error) {
         console.error('Error generating AI response:', error);
