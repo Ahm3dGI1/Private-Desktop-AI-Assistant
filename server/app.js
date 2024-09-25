@@ -13,11 +13,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/api/ollama', async (req, res) => {
-    const { messages } = req.body.messages;
-    const {updateMessage} = req.body.updateMessage;
+    const { messages } = req.body;
 
     try {
-        const aiResponse = await ollamaService.generateCompletion(messages, updateMessage);
+        const aiResponse = await ollamaService.generateCompletion(messages);
         res.json(aiResponse);
     } catch (error) {
         console.error('Error generating AI response:', error);

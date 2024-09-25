@@ -56,15 +56,15 @@ function App() {
       const newMessages = [...messages, userMessage, aiMessage];
       setMessages(newMessages);
 
-      axios.post('http://localhost:5000/api/ollama',
-        {
-          messages: newMessages,
-          updateMessage: (updateMessage: string) => {
-            aiMessage.content += updateMessage;
-            setMessages(prevMessages => [...prevMessages]); // Trigger re-render with updated messages
-          }
-        }
-      );
+      const response = await axios.post('http://localhost:5000/api/ollama', {
+        messages: newMessages, // Send all the messages
+      });
+
+      // Process the response from the backend
+      const aiResponse = response.data; // Assuming the response contains a 'message' key
+      aiMessage.content = aiResponse;
+
+      setMessages([...newMessages]); // Re-render with the updated AI message
 
     } catch (error) {
       console.error('Error:', error); // Log any errors

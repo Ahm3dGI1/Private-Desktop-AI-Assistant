@@ -1,6 +1,6 @@
-const {responseHandler} = require("../utils/parsers/responseHandler.js")
+const { responseHandler } = require("../utils/parsers/responseHandler.js");
 
-exports.generateCompletion = async (messages, updateMessage) => {
+exports.generateCompletion = async (messages) => {
     try {
         // Send a POST request to the Ollama Chat Generator API
         const response = await fetch('http://localhost:11434/api/chat', {
@@ -9,22 +9,21 @@ exports.generateCompletion = async (messages, updateMessage) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "model": "llama3.1",
-                "messages": messages,
-                "stream": false
+                "model": "llama3.1",   // Specify the model here
+                "messages": messages,  // The array of message objects sent from frontend
+                "stream": false        // Set stream to false for non-streaming requests
             }),
         });
 
+        // If the response is not OK, throw an error
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-
+        // Parse the JSON response
         const json = await response.json();
 
-        // responseHandler(json.message.content); 
-
-        updateMessage(json.message.content);
+        return json.message.content;
 
     } catch (error) {
         console.error('Error generating AI response:', error);
