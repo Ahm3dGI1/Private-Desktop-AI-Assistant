@@ -23,6 +23,9 @@ exports.generateCompletion = async (messages) => {
         // Parse the JSON response
         const json = await response.json();
 
+        // Handle the response
+        responseHandler(json.message.content);
+
         return json.message.content;
 
     } catch (error) {
