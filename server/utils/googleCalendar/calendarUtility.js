@@ -4,14 +4,16 @@ const {google} = require('googleapis');
 const fs = require('fs').promises;
 const path = require('path');
 
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
 
-const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+const TOKEN_PATH = process.env.CALENDAR_TOKEN_PATH;
+const CREDENTIALS_PATH = process.env.CALENDAR_CREDENTIALS_PATH;
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -123,6 +125,8 @@ async function addEvent(auth, eventDetails) {
     console.log('Event created: %s', event.htmlLink); 
   });
 }
+
+authorize().then(listEvents);
 
 module.exports = {
   authorize,

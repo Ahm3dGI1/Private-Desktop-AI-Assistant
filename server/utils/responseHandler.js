@@ -1,4 +1,5 @@
 const { fileCmdHandler } = require("./parsers/files.js")
+const { calendarCmdHandler } = require("./parsers/calendar.js")
 
 exports.responseHandler = async (message) => {
 
@@ -22,6 +23,10 @@ exports.responseHandler = async (message) => {
         if (task.includes("##[file-create]")){
             console.log(`Handling file command: ${task}`);
             fileCmdHandler(task);
+        }
+
+        if (task.includes("##[calendar-list]") || task.includes("##[calendar-add]")){
+            calendarCmdHandler(task);
         }
     }
 
