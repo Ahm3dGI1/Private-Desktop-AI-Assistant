@@ -3,5 +3,5 @@ todo.txt
 
 server/.env
 
-server/token.json
-server/credentials.json
+server/utils/googleCalendar/token.json
+server/utils/googleCalendar/credentials.json
