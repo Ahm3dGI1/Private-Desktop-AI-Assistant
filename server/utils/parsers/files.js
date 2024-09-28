@@ -6,32 +6,22 @@ exports.fileCmdHandler = async (task) => {
     
     if (task.includes("##[file-create]")) {
         const fileNameParts = task.replace("##[file-create]", "").trim().split(" ");
-        const fileName = fileNameParts.join("_"); // Join multiple words with underscores if necessary
-
+        const fileName = fileNameParts.join("_");
         const filePath = path.join(__dirname, "../../../sandbox");
-        const fullFilePath = path.join(filePath, fileName);
-        
-        try {
-            // Create the directory if it doesn't exist
-            fs.mkdirSync(filePath, { recursive: true });
-            // Create the file
-            fs.writeFileSync(fullFilePath, ""); // Creates an empty file
-            console.log(`File created at ${fullFilePath}`);
-        } catch (error) {
-            console.error(`Error creating file: ${error.message}`);
-        }
-    }
 
+        file_create(filePath, fileName);
+    }
 }
 
-// const createFile = async (details) => {
-//     console.log(`Creating file: ${details}`);
-// }
+const file_create = (filePath, fileName) => {
+    const fullFilePath = path.join(filePath, fileName);
 
-// const deleteFile = async (details) => {
-//     console.log(`Deleting file: ${details}`);
-// }
+    try {
+        fs.mkdirSync(filePath, { recursive: true });
+        fs.writeFileSync(fullFilePath, "");
+        console.log(`File created at ${fullFilePath}`);
 
-// const renameFile = async (details) => {
-//     console.log(`Renaming file: ${details}`);
-// }
+    } catch (error) {
+        console.error(`Error creating file: ${error.message}`);
+    }
+};

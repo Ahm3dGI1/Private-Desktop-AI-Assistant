@@ -24,25 +24,6 @@ app.post('/api/ollama', async (req, res) => {
     }
 });
 
-app.post('/api/tasks', async (req, res) => {
-    const { aiMessage } = req.body;
-
-    try {
-        const tasks = parseTasks(aiMessage);
-        
-        for (let task of tasks) {
-            if (task.type === 'file-create') {
-                await fileCmdHandler(task);
-            }
-        }
-
-        res.json({ status: 'Tasks executed successfully' });
-    } catch (error) {
-        console.error('Error executing tasks:', error);
-        res.status(500).json({ error: 'Failed to execute tasks' });
-    }
-});
-
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
