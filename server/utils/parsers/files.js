@@ -9,11 +9,11 @@ exports.fileCmdHandler = async (task) => {
         const fileName = fileNameParts.join("_");
         const filePath = path.join(__dirname, "../../../sandbox");
 
-        file_create(filePath, fileName);
+        fileCreate(filePath, fileName);
     }
 }
 
-const file_create = (filePath, fileName) => {
+const fileCreate = (filePath, fileName) => {
     const fullFilePath = path.join(filePath, fileName);
 
     try {
