@@ -1,2 +1,7 @@
 node_modules/
 todo.txt
+
+server/.env
+
+server/token.json
+server/credentials.json

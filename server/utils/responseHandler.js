@@ -1,4 +1,4 @@
-const { fileCmdHandler } = require("./files.js")
+const { fileCmdHandler } = require("./parsers/files.js")
 
 exports.responseHandler = async (message) => {
 
