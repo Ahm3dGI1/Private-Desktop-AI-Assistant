@@ -1,4 +1,4 @@
-const { responseHandler } = require("../utils/parsers/responseHandler.js");
+const { responseHandler } = require("../utils/responseHandler.js");
 
 exports.generateCompletion = async (messages) => {
     try {
