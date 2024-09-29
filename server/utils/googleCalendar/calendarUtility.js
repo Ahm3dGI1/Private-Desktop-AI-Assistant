@@ -126,8 +126,6 @@ async function addEvent(auth, eventDetails) {
   });
 }
 
-authorize().then(listEvents);
-
 module.exports = {
   authorize,
   listEvents,

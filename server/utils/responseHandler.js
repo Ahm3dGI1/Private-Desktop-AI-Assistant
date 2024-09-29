@@ -26,6 +26,7 @@ exports.responseHandler = async (message) => {
         }
 
         if (task.includes("##[calendar-list]") || task.includes("##[calendar-add]")){
+            console.log(`Handling calendar command: ${task}`);
             calendarCmdHandler(task);
         }
     }
