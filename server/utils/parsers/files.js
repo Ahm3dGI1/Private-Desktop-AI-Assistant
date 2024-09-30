@@ -13,6 +13,12 @@ exports.fileCmdHandler = async (task) => {
     }
 }
 
+/**
+ * The function `fileCreate` creates a file at a specified path with a given name in JavaScript.
+ * @param filePath - Refers to the directory path where you want to create the file. This is the 
+ * location where the new file will be saved.
+ * @param fileName - The name of the file that will be created.
+ */
 const fileCreate = (filePath, fileName) => {
     const fullFilePath = path.join(filePath, fileName);
 

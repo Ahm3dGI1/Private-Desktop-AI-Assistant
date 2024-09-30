@@ -135,17 +135,16 @@ function App() {
       setMessages(newMessages);
 
       const response = await axios.post('http://localhost:5000/api/ollama', {
-        messages: newMessages, // Send all the messages
+        messages: newMessages,
       });
 
-      // Process the response from the backend
-      const aiResponse = response.data; // Assuming the response contains a 'message' key
+      const aiResponse = response.data;
       aiMessage.content = aiResponse;
 
       setMessages([...newMessages]); // Re-render with the updated AI message
 
     } catch (error) {
-      console.error('Error:', error); // Log any errors
+      console.error('Error:', error);
     }
   };
 

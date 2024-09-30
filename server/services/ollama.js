@@ -1,5 +1,8 @@
 const { responseHandler } = require("../utils/responseHandler.js");
 
+/** `generateCompletion` Generates a completion using the Ollama Chat Generator API.
+ * @param {Array} messages - An array of all the previous messages and new ones to send to the API.
+*/
 exports.generateCompletion = async (messages) => {
     try {
         // Send a POST request to the Ollama Chat Generator API
@@ -24,6 +27,7 @@ exports.generateCompletion = async (messages) => {
         // Handle the response
         responseHandler(jsonResponse.tasks);
 
+        // Return the message to be displayed
         return jsonResponse.message;
 
     } catch (error) {

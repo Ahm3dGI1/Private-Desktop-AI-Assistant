@@ -1,6 +1,9 @@
 const { fileCmdHandler } = require("./parsers/files.js")
 const { calendarCmdHandler } = require("./parsers/calendar.js")
 
+/** `exports.responseHandler` takes in a list of tasks as a parameter and calls the appropriate handler for each task.
+ * @param {Array} tasksList - An array of tasks to be handled.
+*/
 exports.responseHandler = async (tasksList) => {
 
     for (let task of tasksList) {
