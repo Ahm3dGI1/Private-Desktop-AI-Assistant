@@ -1,6 +1,15 @@
 const fs = require("fs");
 const path = require("path");
 
+
+/**
+ * Handles different file commands.
+ * Accepted commands include:
+ * - `##[file-create]`: Creates a file in the sandbox directory.
+ * 
+ * @param {Array} task - The task to be executed.
+ */
+
 exports.fileCmdHandler = async (task) => {
     console.log(`Handling file command: ${task}`);
     
@@ -13,11 +22,13 @@ exports.fileCmdHandler = async (task) => {
     }
 }
 
+
 /**
- * The function `fileCreate` creates a file at a specified path with a given name in JavaScript.
- * @param filePath - Refers to the directory path where you want to create the file. This is the 
- * location where the new file will be saved.
- * @param fileName - The name of the file that will be created.
+ * Creates a file at the specified path with the given name.
+ * If the directory does not exist, it will be created.
+ *
+ * @param {string} filePath - The path of the directory where the file will be created.
+ * @param {string} fileName - The name of the file to be created.
  */
 const fileCreate = (filePath, fileName) => {
     const fullFilePath = path.join(filePath, fileName);

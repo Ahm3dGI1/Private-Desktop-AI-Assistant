@@ -3,6 +3,14 @@ const { authorize, listEvents, addEvent } = require("../googleCalendar/calendarU
 
 const client = authorize();
 
+/**
+ * Handles different Calendar commands.
+ * Accepted commands include: 
+ * - `##[calendar-list]`: Lists all events on the calendar.
+ * - `##[calendar-add]`: Adds a test event to the calendar.
+ * 
+ * @param {Array} task - The task to be executed.
+ */
 exports.calendarCmdHandler = async (task) => {
     console.log(`Handling calendar command: ${task}`);
     
