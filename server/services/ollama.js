@@ -16,14 +16,15 @@ exports.generateCompletion = async (messages) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        
+ 
         const json = await response.json();
-                
-        // Handle the response
-        responseHandler(json.message.content.tasks);
+        const jsonResponse = JSON.parse(json.message.content, null, 2);
+    
 
-        return json.message.content.message;
+        // Handle the response
+        responseHandler(jsonResponse.tasks);
+
+        return jsonResponse.message;
 
     } catch (error) {
         console.error('Error generating AI response:', error);

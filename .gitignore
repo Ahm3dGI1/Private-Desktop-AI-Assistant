@@ -5,3 +5,5 @@ server/.env
 
 server/utils/googleCalendar/token.json
 server/utils/googleCalendar/credentials.json
+
+sandbox/

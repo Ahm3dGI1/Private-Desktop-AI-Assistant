@@ -1,23 +1,7 @@
 const { fileCmdHandler } = require("./parsers/files.js")
 const { calendarCmdHandler } = require("./parsers/calendar.js")
 
-exports.responseHandler = async (message) => {
-
-    let tasksListString;
-
-    let startIndexOfTask = message.indexOf("##[run-task]");
-    let endIndexOfTask = message.indexOf("##[end-task]");
-
-
-    if (startIndexOfTask === -1) {
-        return;
-    }
-    else{
-        tasksListString = message.substring(startIndexOfTask+12, endIndexOfTask-1);
-    }
-
-    let tasksList = tasksListString.split("\n");
-    tasksList = tasksList.filter(task => task !== "");
+exports.responseHandler = async (tasksList) => {
 
     for (let task of tasksList) {
         if (task.includes("##[file-create]")){
@@ -30,7 +14,5 @@ exports.responseHandler = async (message) => {
             calendarCmdHandler(task);
         }
     }
-
     return;
-
 };
