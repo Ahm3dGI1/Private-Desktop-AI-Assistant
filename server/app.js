@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const ollamaService = require('./services/ollama.js');
+const ttsService = require('./services/tts.js');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
