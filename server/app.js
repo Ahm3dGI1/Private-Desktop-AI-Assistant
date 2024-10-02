@@ -18,6 +18,11 @@ app.post('/api/ollama', async (req, res) => {
 
     try {
         const aiResponse = await ollamaService.generateCompletion(messages);
+
+        console.log('AI response:', aiResponse);
+
+        ttsService.speak(aiResponse);
+
         res.json(aiResponse);
     } catch (error) {
         console.error('Error generating AI response:', error);
