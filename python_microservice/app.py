@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from voice_logic.tts import tts
-from voice_handler import voice_handler
+from voice_logic.stt import stt
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def speak():
 
 @app.route('/listen', methods=['POST'])
 def listen():
-    return jsonify({'message': 'success', 'text': voice_handler()})
+    return jsonify({'message': 'success', 'text': stt()})
 
 
 if __name__ == '__main__':
