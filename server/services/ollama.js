@@ -1,4 +1,5 @@
 const { responseHandler } = require("../utils/responseHandler.js");
+const { callPythonTTS } = require("./tts.js");
 
 /** `generateCompletion` Generates a completion using the Ollama Chat Generator API.
  * @param {Array} messages - An array of all the previous messages and new ones to send to the API.
@@ -28,6 +29,8 @@ exports.generateCompletion = async (messages) => {
         responseHandler(jsonResponse.tasks);
 
         // Return the message to be displayed
+        callPythonTTS(jsonResponse.message);
+
         return jsonResponse.message;
 
     } catch (error) {

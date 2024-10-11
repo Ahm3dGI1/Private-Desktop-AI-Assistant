@@ -10,9 +10,10 @@ interface InputBarProps {
     prompt: string;
     setPrompt: (prompt: string) => void;
     onSubmit: () => void;
+    takeVoice: () => void;
 }
 
-const InputBar: React.FC<InputBarProps> = ({ prompt, setPrompt, onSubmit }) => {
+const InputBar: React.FC<InputBarProps> = ({ prompt, setPrompt, onSubmit, takeVoice }) => {
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
@@ -37,7 +38,11 @@ const InputBar: React.FC<InputBarProps> = ({ prompt, setPrompt, onSubmit }) => {
                         <button className="in-cam"><GrAttachment /></button>
                     </div>
                 </div>
-                <button className="in-voice"><FaMicrophone /></button>
+                <button
+                    className="in-voice"
+                    onClick={takeVoice}
+
+                ><FaMicrophone /></button>
             </div>
         </>
     );

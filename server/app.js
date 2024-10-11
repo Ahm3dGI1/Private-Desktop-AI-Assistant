@@ -3,7 +3,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const ollamaService = require('./services/ollama.js');
-const ttsService = require('./services/tts.js');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,8 +19,6 @@ app.post('/api/ollama', async (req, res) => {
         const aiResponse = await ollamaService.generateCompletion(messages);
 
         console.log('AI response:', aiResponse);
-
-        ttsService.speak(aiResponse);
 
         res.json(aiResponse);
     } catch (error) {

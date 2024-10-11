@@ -148,10 +148,21 @@ function App() {
     }
   };
 
+  const callPythonStt = async () => {
+    try {
+      const response = await axios.post('http://localhost:4001/listen');
+      console.log(response.data);
+    }
+
+    catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="App">
       <ChatLog messages={messages.slice(1)} />
-      <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={handleInput} />
+      <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={handleInput} takeVoice={callPythonStt} />
     </div>
   );
 }

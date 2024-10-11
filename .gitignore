@@ -8,12 +8,13 @@ server/utils/googleCalendar/credentials.json
 
 sandbox/
 
+python_microservice/venv/
 
 # dependencies
 client/node_modules
 client/.pnp
 client/.pnp.js
-
+ 
 # testing
 client/coverage
 

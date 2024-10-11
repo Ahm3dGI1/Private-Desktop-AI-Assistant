@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
-import pyttsx3
+from flask_cors import CORS
+
+from voice_logic.tts import tts
+from voice_handler import voice_handler
 
 app = Flask(__name__)
 
-engine = pyttsx3.init()
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 
 @app.route('/speak', methods=['POST'])
@@ -14,15 +17,14 @@ def speak():
     if not text:
         return jsonify({'message': 'No text provided'}), 400
 
-    engine.say(text)
-    engine.runAndWait()
+    tts(text)
 
     return jsonify({'message': 'success'})
 
 
-@app.route('/listen', methods=['GET'])
+@app.route('/listen', methods=['POST'])
 def listen():
-    return jsonify({'message': 'success'})
+    return jsonify({'message': 'success', 'text': voice_handler()})
 
 
 if __name__ == '__main__':

@@ -1,10 +1,12 @@
-const say = require('say');
+const axios = require('axios');
 
-const speak = (text) => {
-    say.speak(text, "Microsoft Zira Desktop", 1.3);
-};
+async function callPythonTTS(text) {
+    try {
+        const response = await axios.post('http://localhost:4001/speak', { text });
+        console.log(response.data.message);
+    } catch (error) {
+        console.error("Error calling Python microservice:", error.message);
+    }
+}
 
-module.exports = {
-    speak,
-};
-
+module.exports = { callPythonTTS };
