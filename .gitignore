@@ -1,33 +1,41 @@
+# Node modules
 node_modules/
-todo.txt
+client/node_modules/
 
+# Environment files
 server/.env
-
-server/utils/googleCalendar/token.json
-server/utils/googleCalendar/credentials.json
-
-sandbox/
-
-python_microservice/venv/
-
-# dependencies
-client/node_modules
-client/.pnp
-client/.pnp.js
- 
-# testing
-client/coverage
-
-# production
-client/build
-
-# misc
-client/.DS_Store
 client/.env.local
 client/.env.development.local
 client/.env.test.local
 client/.env.production.local
 
+# Google API credentials and tokens
+server/services/googleapi/credentials.json
+server/services/googleapi/token.json
+
+# Sandbox directory (temporary files)
+sandbox/
+
+# Python virtual environment
+python_microservice/venv/
+
+# Logs
 client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
+
+# Testing coverage
+client/coverage/
+
+# Build output
+client/build/
+
+# Miscellaneous
+client/.DS_Store
+
+# Temporary to-do files
+todo.txt
+
+# PnP (Plug'n'Play) files
+client/.pnp
+client/.pnp.js

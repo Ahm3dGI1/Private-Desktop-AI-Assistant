@@ -124,6 +124,7 @@ function App() {
   const [messages, setMessages] = useState([SYSTEM_MESSAGE]);
   const [triggerInput, setTriggerInput] = useState(false);
 
+  // Handles user input and sends it to the server
   const handleInput = async () => {
     if (prompt.trim() === '') return; // Don't send empty messages
 
@@ -136,6 +137,7 @@ function App() {
       const newMessages = [...messages, userMessage, aiMessage];
       setMessages(newMessages);
 
+      // Send the messages to the server and get the AI response
       const response = await axios.post('http://localhost:5000/api/ollama', {
         messages: newMessages,
       });
@@ -150,6 +152,7 @@ function App() {
     }
   };
 
+  // Calls the Python speech-to-text service
   const callPythonStt = async () => {
     try {
       const response = await axios.post('http://localhost:4001/listen');
@@ -157,13 +160,12 @@ function App() {
 
       setPrompt(newPrompt);
       setTriggerInput(true);
-    }
-
-    catch (error) {
+    } catch (error) {
       console.error('Error:', error);
     }
   };
 
+  // Trigger input handling when speech-to-text completes
   useEffect(() => {
     if (triggerInput) {
       handleInput();
