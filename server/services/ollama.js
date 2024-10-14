@@ -6,7 +6,7 @@ const { callPythonTTS } = require("./tts.js");
 */
 exports.generateCompletion = async (messages) => {
     try {
-        // Send a POST request to the Ollama Chat Generator API
+        // Send a request to the Ollama Chat Generator API
         const response = await fetch('http://localhost:11434/api/chat', {
             method: 'POST',
             body: JSON.stringify({
@@ -25,10 +25,10 @@ exports.generateCompletion = async (messages) => {
         const jsonResponse = JSON.parse(json.message.content, null, 2);
     
 
-        // Handle the response
+        // Handle the response tasks
         responseHandler(jsonResponse.tasks);
 
-        // Return the message to be displayed
+        // Return the message to be spoken
         callPythonTTS(jsonResponse.message);
 
         return jsonResponse.message;
