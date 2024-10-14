@@ -9,7 +9,7 @@ import { FaMicrophone } from "react-icons/fa";
 interface InputBarProps {
     prompt: string;
     setPrompt: (prompt: string) => void;
-    onSubmit: () => void;
+    onSubmit: (bool: boolean) => void;
     takeVoice: () => void;
 }
 
@@ -17,7 +17,7 @@ const InputBar: React.FC<InputBarProps> = ({ prompt, setPrompt, onSubmit, takeVo
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            onSubmit();
+            onSubmit(true);
         }
     };
 

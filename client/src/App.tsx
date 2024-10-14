@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { generateCompletion } from '../../server/services/ollama.js';
@@ -121,6 +121,7 @@ You can access this JSON structure whenever you need to reference the correct sy
 function App() {
   const [prompt, setPrompt] = useState<string>('');
   const [messages, setMessages] = useState([SYSTEM_MESSAGE]);
+  const [triggerInput, setTriggerInput] = useState(false);
 
   const handleInput = async () => {
     if (prompt.trim() === '') return; // Don't send empty messages
@@ -141,7 +142,7 @@ function App() {
       const aiResponse = response.data;
       aiMessage.content = aiResponse;
 
-      setMessages([...newMessages]); // Re-render with the updated AI message
+      setMessages([...newMessages]);
 
     } catch (error) {
       console.error('Error:', error);
@@ -151,7 +152,10 @@ function App() {
   const callPythonStt = async () => {
     try {
       const response = await axios.post('http://localhost:4001/listen');
-      console.log(response.data);
+      const newPrompt = response.data.text;
+
+      setPrompt(newPrompt);
+      setTriggerInput(true);
     }
 
     catch (error) {
@@ -159,10 +163,17 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (triggerInput) {
+      handleInput();
+      setTriggerInput(false);
+    }
+  }, [triggerInput]);
+
   return (
     <div className="App">
       <ChatLog messages={messages.slice(1)} />
-      <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={handleInput} takeVoice={callPythonStt} />
+      <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={setTriggerInput} takeVoice={callPythonStt} />
     </div>
   );
 }
