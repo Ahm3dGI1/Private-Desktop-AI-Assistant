@@ -4,6 +4,8 @@ const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+
 // If modifying these scopes, delete token.json.
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
@@ -14,6 +16,7 @@ const SCOPES = [
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
+
 const TOKEN_PATH = process.env.CALENDAR_TOKEN_PATH;
 const CREDENTIALS_PATH = process.env.CALENDAR_CREDENTIALS_PATH;
 
@@ -69,3 +72,7 @@ async function authorize() {
   }
   return client;
 }
+
+module.exports = {
+  authorize,
+};

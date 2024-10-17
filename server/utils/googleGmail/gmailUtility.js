@@ -1,4 +1,6 @@
-import { authorize } from '../googleapi/auth';
+const {google} = require('googleapis');
+
+const { authorize } = require('../../services/googleapi/auth.js');
 
 /**
  * Lists the labels in the user's account.
@@ -21,4 +23,6 @@ async function listLabels(auth) {
   });
 }
 
-authorize().then(listLabels).catch(console.error);
+module.exports = {
+  listLabels,
+};
