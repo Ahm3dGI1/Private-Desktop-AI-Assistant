@@ -1,5 +1,7 @@
 const { fileCmdHandler } = require("./parsers/files.js")
 const { calendarCmdHandler } = require("./parsers/calendar.js")
+const { gmailCmdHandler } = require("./parsers/gmail.js")
+
 
 /**
  * A parser that takes the AI response and handles the tasks accordingly.
@@ -20,9 +22,15 @@ exports.responseHandler = async (tasksList) => {
             fileCmdHandler(task);
         }
 
-        if (task.includes("##[calendar-list]") || task.includes("##[calendar-add]")){
+        else if (task.includes("##[calendar-list]") || task.includes("##[calendar-add]")){
             console.log(`Handling calendar command: ${task}`);
             calendarCmdHandler(task);
+        }
+
+        else if (task.includes("##[gmail-list]") || task.includes("##[gmail-messages]")){
+            console.log(`Handling gmail command: ${task}`);
+            gmailCmdHandler(task);
+            // Implement the gmail command handler here
         }
     }
     return;

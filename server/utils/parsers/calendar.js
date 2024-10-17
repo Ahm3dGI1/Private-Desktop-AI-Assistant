@@ -1,7 +1,7 @@
-const { authorize, listEvents, addEvent } = require("../googleCalendar/calendarUtility.js");
+const { authorize } = require("../../services/googleapi/auth.js");
+const { listEvents, addEvent } = require("../googleCalendar/calendarUtility.js");
 
 
-const client = authorize();
 
 /**
  * Handles different Calendar commands.
@@ -10,9 +10,10 @@ const client = authorize();
  * - `##[calendar-add]`: Adds a test event to the calendar.
  * 
  * @param {Array} task - The task to be executed.
- */
+*/
 exports.calendarCmdHandler = async (task) => {
     console.log(`Handling calendar command: ${task}`);
+    const client = await authorize();
     
     if (task.includes("##[calendar-list]")) {
         listEvents(client);
@@ -29,4 +30,3 @@ exports.calendarCmdHandler = async (task) => {
         addEvent(client, eventDetails);
     }
 };
-

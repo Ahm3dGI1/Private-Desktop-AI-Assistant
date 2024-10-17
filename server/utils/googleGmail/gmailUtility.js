@@ -1,6 +1,6 @@
+const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport/index.js");
+const { authorize } = require("../../services/googleapi/auth.js");
 const {google} = require('googleapis');
-
-const { authorize } = require('../../services/googleapi/auth.js');
 
 /**
  * Lists the labels in the user's account.
@@ -23,6 +23,38 @@ async function listLabels(auth) {
   });
 }
 
+/**
+ * Lists the last 10 emails in the user's account.
+ *
+ * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
+ */
+async function listMessages(auth, maxResults = 10) {
+  const gmail = google.gmail({ version: 'v1', auth });
+  const res = await gmail.users.messages.list({
+    userId: 'me',
+    maxResults: maxResults,
+    labelIds: ['INBOX'],
+  });
+  const messages = res.data.messages || [];
+  if (messages.length === 0) {
+    return "No messages found.";
+  }
+
+  let messagesSnippets = [];
+
+  for (const message of messages) {
+    const msg = await gmail.users.messages.get({
+      userId: 'me',
+      id: message.id,
+    });
+    messagesSnippets = [...messagesSnippets, msg.data.snippet];
+  }
+
+  return messagesSnippets;
+}
+
+
 module.exports = {
   listLabels,
+  listMessages,
 };

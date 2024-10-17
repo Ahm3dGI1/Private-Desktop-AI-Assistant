@@ -1,4 +1,5 @@
-import { authorize } from '../googleapi/auth';
+const { authorize } = require('../../services/googleapi/auth.js');
+const {google} = require('googleapis');
 
 /**
  * Lists the next 10 events on the user's primary calendar.
@@ -59,7 +60,6 @@ async function addEvent(auth, eventDetails) {
 }
 
 module.exports = {
-  authorize,
   listEvents,
   addEvent,
 };
