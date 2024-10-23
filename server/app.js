@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const ollamaService = require('./services/ollama.js');
 const { responseHandler } = require("./utils/responseHandler.js");
-const { callPythonTTS } = require("./sservices/tts.js");
+const { callPythonTTS } = require("./services/tts.js");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -30,9 +30,9 @@ app.post('/api/ollama', async (req, res) => {
             const taskResultText = await responseHandler(ollamaResponse.tasks);
 
             // Return the message to be spoken
-            callPythonTTS(ollamaResponse.message);
-
+            
             const aiResponse = ollamaResponse.message + '\n' + taskResultText;
+            callPythonTTS(aiResponse);
 
         return res.json(aiResponse);
     } catch (error) {
