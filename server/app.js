@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
 const ollamaService = require('./services/ollama.js');
+const { responseHandler } = require("./utils/responseHandler.js");
+const { callPythonTTS } = require("./sservices/tts.js");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -21,7 +24,16 @@ app.post('/api/ollama', async (req, res) => {
             return res.status(400).json({ error: 'Invalid messages format. It must be an array.' });
         }
 
-        const aiResponse = await ollamaService.generateCompletion(messages);
+        const ollamaResponse = await ollamaService.generateCompletion(messages);
+
+            // Handle the response tasks
+            const taskResultText = await responseHandler(ollamaResponse.tasks);
+
+            // Return the message to be spoken
+            callPythonTTS(ollamaResponse.message);
+
+            const aiResponse = ollamaResponse.message + '\n' + taskResultText;
+
         return res.json(aiResponse);
     } catch (error) {
         console.error('Error generating AI response:', error);

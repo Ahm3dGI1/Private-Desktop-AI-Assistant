@@ -1,7 +1,6 @@
-const { fileCmdHandler } = require("./parsers/files.js")
-const { calendarCmdHandler } = require("./parsers/calendar.js")
-const { gmailCmdHandler } = require("./parsers/gmail.js")
-
+const { fileCmdHandler } = require("./parsers/files.js");
+const { calendarCmdHandler } = require("./parsers/calendar.js");
+const { gmailCmdHandler } = require("./parsers/gmail.js");
 
 /**
  * A parser that takes the AI response and handles the tasks accordingly.
@@ -11,28 +10,43 @@ const { gmailCmdHandler } = require("./parsers/gmail.js")
  *  - Calendar commands
  *      - `##[calendar-list]`: Lists all events on the calendar.
  *      - `##[calendar-add]`: Adds a test event to the calendar.
+ *  - Gmail commands
+ *      - `##[gmail-list]`: Lists all labels in the Gmail account.
+ *      - `##[gmail-messages] <MessagesNo>`: Lists the last `MessagesNo` emails in the Gmail account.
  * 
- * @param {Array} tasksList - The list of tasks to be executed.
+ * @param {Array<string>} tasksList - The list of tasks to be executed.
+ * @returns {string} - The result of all the tasks concatenated into one response string.
  */
 exports.responseHandler = async (tasksList) => {
-
-    let taskResultText = ""
+    let taskResultText = "";
 
     for (let task of tasksList) {
-        if (task.includes("##[file-create]")){
-            console.log(`Handling file command: ${task}`);
-            taskResultText += await fileCmdHandler(task) + "\n";
-        }
+        try {
+            // Handle file commands
+            if (task.startsWith("##[file-create]")) {
+                taskResultText += await fileCmdHandler(task) + "\n";
+            }
 
-        else if (task.includes("##[calendar-list]") || task.includes("##[calendar-add]")){
-            console.log(`Handling calendar command: ${task}`);
-            taskResultText += await calendarCmdHandler(task) + "\n";
-        }
+            // Handle calendar commands
+            else if (task.startsWith("##[calendar-list]") || task.startsWith("##[calendar-add]")) {
+                taskResultText += await calendarCmdHandler(task) + "\n";
+            }
 
-        else if (task.includes("##[gmail-list]") || task.includes("##[gmail-messages]")){
-            console.log(`Handling gmail command: ${task}`);
-            taskResultText += await gmailCmdHandler(task) + "\n";
+            // Handle Gmail commands
+            else if (task.startsWith("##[gmail-list]") || task.startsWith("##[gmail-messages]")) {
+                taskResultText += await gmailCmdHandler(task) + "\n";
+            }
+
+            // If the task doesn't match any known command
+            else {
+                console.warn(`Unrecognized task: ${task}`);
+                taskResultText += `Unrecognized task: ${task}\n`;
+            }
+        } catch (error) {
+            console.error(`Error processing task: ${task}, Error: ${error.message}`);
+            taskResultText += `Error processing task: ${task}\n`;
         }
     }
-    return taskResultText;
+
+    return taskResultText.trim();
 };
