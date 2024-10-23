@@ -8,6 +8,7 @@ const { authorize } = require('../../services/googleapi/auth.js');
  * - `##[gmail-messages] <MessagesNo> `: Lists the last `MessagesNo` emails in the Gmail account.
  * 
  * @param {string} task - The task to be executed.
+ * @returns {string} - The result of the command.
  */
 exports.gmailCmdHandler = async (task) => {
     try {
@@ -16,17 +17,31 @@ exports.gmailCmdHandler = async (task) => {
         // Authorize the client first
         const client = await authorize();
 
+        let result = "";
+
         // Handle Gmail labels listing
         if (task.startsWith("##[gmail-list]")) {
-            await listLabels(client);
+            const labels = await listLabels(client);
+            result += "Gmail Labels:\n";
+            result += labels.join("\n");
+
+            return result;
         }
 
         // Handle Gmail messages listing
         if (task.startsWith("##[gmail-messages]")) {
             const messagesNo = parseInt(task.replace("##[gmail-messages]", "").trim()) || 10;
-            await listMessages(client, messagesNo);
+            result += `Last ${messagesNo} Gmail Messages:\n`;
+            const messages = await listMessages(client, messagesNo);
+            result += messages.join("\n");
+
+            return result;
         }
+
+        return "Invalid command.";
+
     } catch (error) {
         console.error(`Error handling Gmail command: ${error.message}`);
+        return "An error occurred while handling the Gmail command.";
     }
 };

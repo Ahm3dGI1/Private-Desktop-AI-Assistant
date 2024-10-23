@@ -1,27 +1,33 @@
-const fs = require("fs");
+const fs = require("fs").promises; // Use fs.promises for async handling
 const path = require("path");
-
 
 /**
  * Handles different file commands.
  * Accepted commands include:
  * - `##[file-create]`: Creates a file in the sandbox directory.
  * 
- * @param {Array} task - The task to be executed.
+ * @param {string} task - The task to be executed.
+ * @returns {string} - The result of the command execution.
  */
-
 exports.fileCmdHandler = async (task) => {
     console.log(`Handling file command: ${task}`);
     
-    if (task.includes("##[file-create]")) {
+    if (task.startsWith("##[file-create]")) {
         const fileNameParts = task.replace("##[file-create]", "").trim().split(" ");
         const fileName = fileNameParts.join("_");
         const filePath = path.join(__dirname, "../../../sandbox");
 
-        fileCreate(filePath, fileName);
+        try {
+            const result = await fileCreate(filePath, fileName);
+            return result;
+        } catch (error) {
+            console.error(`Error in fileCmdHandler: ${error.message}`);
+            return `Failed to create file: ${error.message}`;
+        }
     }
-}
 
+    return "Invalid command.";
+};
 
 /**
  * Creates a file at the specified path with the given name.
@@ -29,16 +35,18 @@ exports.fileCmdHandler = async (task) => {
  *
  * @param {string} filePath - The path of the directory where the file will be created.
  * @param {string} fileName - The name of the file to be created.
+ * @returns {string} - Confirmation message for the file creation.
  */
-const fileCreate = (filePath, fileName) => {
+const fileCreate = async (filePath, fileName) => {
     const fullFilePath = path.join(filePath, fileName);
 
     try {
-        fs.mkdirSync(filePath, { recursive: true });
-        fs.writeFileSync(fullFilePath, "");
+        await fs.mkdir(filePath, { recursive: true }); // Create directory if it doesn't exist
+        await fs.writeFile(fullFilePath, ""); // Create an empty file
         console.log(`File created at ${fullFilePath}`);
-
+        return `File created at ${fullFilePath}`;
     } catch (error) {
         console.error(`Error creating file: ${error.message}`);
+        throw new Error(`Error creating file: ${error.message}`);
     }
 };

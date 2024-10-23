@@ -16,22 +16,23 @@ const { gmailCmdHandler } = require("./parsers/gmail.js")
  */
 exports.responseHandler = async (tasksList) => {
 
+    let taskResultText = ""
+
     for (let task of tasksList) {
         if (task.includes("##[file-create]")){
             console.log(`Handling file command: ${task}`);
-            fileCmdHandler(task);
+            taskResultText += await fileCmdHandler(task) + "\n";
         }
 
         else if (task.includes("##[calendar-list]") || task.includes("##[calendar-add]")){
             console.log(`Handling calendar command: ${task}`);
-            calendarCmdHandler(task);
+            taskResultText += await calendarCmdHandler(task) + "\n";
         }
 
         else if (task.includes("##[gmail-list]") || task.includes("##[gmail-messages]")){
             console.log(`Handling gmail command: ${task}`);
-            gmailCmdHandler(task);
-            // Implement the gmail command handler here
+            taskResultText += await gmailCmdHandler(task) + "\n";
         }
     }
-    return;
+    return taskResultText;
 };
