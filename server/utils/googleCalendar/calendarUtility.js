@@ -1,6 +1,25 @@
 const { google } = require('googleapis');
 
 /**
+ * Formats a date string into a human-readable format.
+ * @param {string} dateTimeString - The date string to format.
+ * @returns {string} - Formatted date.
+ */
+function formatDate(dateTimeString) {
+  const date = new Date(dateTimeString);
+
+  const options = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+/**
  * Lists the next 10 events on the user's primary calendar.
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  * @returns {Array<string>} - List of upcoming events or an error message.
@@ -20,9 +39,10 @@ async function listEvents(auth) {
     return ['No upcoming events found.'];
   }
 
+  // Use formatted dates for event listing
   return events.map((event) => {
-    const start = event.start.dateTime || event.start.date;
-    return `${start} - ${event.summary}`;
+    let start = event.start.dateTime || event.start.date;
+    return `${formatDate(start)} - ${event.summary}`;
   });
 }
 
@@ -60,6 +80,7 @@ async function addEvent(auth, eventDetails) {
     return 'Failed to create the event on the calendar.';
   }
 }
+
 
 module.exports = {
   listEvents,

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { generateCompletion } from '../../server/services/ollama.js';
-
 import './App.css';
 
 import InputBar from './components/input_bar';
@@ -135,7 +133,8 @@ function App() {
 
       const userMessage = { role: "user", content: currPrompt };
       const aiMessage = { role: "assistant", content: "" };
-      const newMessages = [...messages, userMessage, aiMessage];
+      const systemMessage = { role: "system", content: "" };
+      const newMessages = [...messages, userMessage, aiMessage, systemMessage];
       setMessages(newMessages);
 
       // Send the messages to the server and get the AI response
@@ -143,8 +142,12 @@ function App() {
         messages: newMessages,
       });
 
-      const aiResponse = response.data;
+      const aiResponse = response.data.aiResponse;
+      const systemResponse = response.data.systemResponse;
+
       aiMessage.content = aiResponse;
+      systemMessage.content = systemResponse;
+
 
       setMessages([...newMessages]);
 

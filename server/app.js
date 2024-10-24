@@ -32,9 +32,11 @@ app.post('/api/ollama', async (req, res) => {
             // Return the message to be spoken
             
             const aiResponse = ollamaResponse.message + '\n' + taskResultText;
+            const sysResponse = taskResultText;
+
             callPythonTTS(aiResponse);
 
-        return res.json(aiResponse);
+        return res.json({ aiResponse, sysResponse });
     } catch (error) {
         console.error('Error generating AI response:', error);
         return res.status(500).json({ error: 'Failed to generate AI response' });

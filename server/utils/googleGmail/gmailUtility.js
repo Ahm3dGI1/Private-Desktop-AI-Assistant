@@ -41,7 +41,6 @@ async function listMessages(auth, maxResults = 10) {
     return ['No messages found.'];
   }
 
-
   const messagesSnippets = await Promise.all(messages.map(async (message) => {
     const msg = await gmail.users.messages.get({
       userId: 'me',
@@ -51,6 +50,18 @@ async function listMessages(auth, maxResults = 10) {
   }));
 
   return messagesSnippets;
+}
+
+async function sendMessage(auth, message) {
+  const gmail = google.gmail({ version: 'v1', auth });
+  const res = await gmail.users.messages.send({
+    userId: 'me',
+    requestBody: {
+      raw: message,
+    },
+  });
+
+  return res;
 }
 
 module.exports = {
