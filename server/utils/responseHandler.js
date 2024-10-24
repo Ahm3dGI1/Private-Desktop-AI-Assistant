@@ -13,12 +13,15 @@ const { gmailCmdHandler } = require("./parsers/gmail.js");
  *  - Gmail commands
  *      - `##[gmail-list]`: Lists all labels in the Gmail account.
  *      - `##[gmail-messages] <MessagesNo>`: Lists the last `MessagesNo` emails in the Gmail account.
+ *      - `##[gmail-send]` <recipient> <subject> <message> : Sends an email to the recipient with the subject and message.
  * 
  * @param {Array<string>} tasksList - The list of tasks to be executed.
  * @returns {string} - The result of all the tasks concatenated into one response string.
  */
 exports.responseHandler = async (tasksList) => {
     let taskResultText = "";
+
+    console.log("tasksList: ", tasksList);
 
     for (let task of tasksList) {
         try {
@@ -33,7 +36,7 @@ exports.responseHandler = async (tasksList) => {
             }
 
             // Handle Gmail commands
-            else if (task.startsWith("##[gmail-list]") || task.startsWith("##[gmail-messages]")) {
+            else if (task.startsWith("##[gmail-list]") || task.startsWith("##[gmail-messages]") || task.startsWith("##[gmail-send]")) {
                 taskResultText += await gmailCmdHandler(task) + "\n";
             }
 

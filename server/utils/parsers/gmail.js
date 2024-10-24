@@ -1,4 +1,4 @@
-const { listLabels, listMessages } = require('../googleGmail/gmailUtility.js');
+const { listLabels, listMessages, sendMessage } = require('../googleGmail/gmailUtility.js');
 const { authorize } = require('../../services/googleapi/auth.js');
 
 /**
@@ -38,6 +38,26 @@ exports.gmailCmdHandler = async (task) => {
             return result;
         }
 
+        // Handle Gmail send email
+        if (task.startsWith("##[gmail-send]")) {
+            // Regex pattern to capture the parameters of the command since they can be more than one word and are wrapped in single quotes
+            const regex = /'([^']+)'/g;
+            const matches = [...task.matchAll(regex)].map(match => match[1]);
+        
+            if (matches.length === 3) {
+                const emailDetails = {
+                    from: "ahmedgouda797@gmail.com",
+                    to: matches[0],
+                    subject: matches[1],
+                    message: matches[2], 
+                };
+                
+                result = await sendMessage(client, emailDetails);
+
+                return result;
+            }
+        }
+        
         return "Invalid command.";
 
     } catch (error) {

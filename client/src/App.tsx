@@ -42,7 +42,9 @@ Use these commands in the "tasks" array when you need to perform specific action
    - The file path is hardcoded, so you only need to specify the file name.
 2. Listing Google Calendar Events: ##[calendar-list]
 3. Creating Google Calendar Events: ##[calendar-create] <title> <start-time> <end-time>
-4. Listing the last emails from Gmail: ##[gmail-messages] <MessagesNo>
+4. Listing the last emails from Gmail: ##[gmail-messages] <messagesNo>
+5. Sending an email: ##[gmail-send] '<recipient>' '<subject>' '<message>'
+  - The parameters might be more than one word, so use double qoutes to wrap them.
 
 Important: Never use these command syntaxes in the "message" part of your response.
 
