@@ -1,12 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const process = require('process');
+const { createGithubRepo } = require('../utils/githubUtils.js');
 
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
-
-GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-
+/**
+ * Handle the GitHub command.
+ * 
+ * @param {List} task Task object containing the command and parameters.
+ */
 async function githubCMDHandler(task){
-    
 };
+
