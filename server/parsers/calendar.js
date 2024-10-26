@@ -1,5 +1,5 @@
 const { authorize } = require("../services/googleapi/auth.js");
-const { listEvents, addEvent } = require("../utils/calendarUtility.js");
+const { listEvents, addEvent } = require("../utils/calendarUtils.js");
 
 /**
  * Handles different Calendar commands.

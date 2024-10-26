@@ -6,3 +6,7 @@ const process = require('process');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+async function githubCMDHandler(task){
+    
+};
