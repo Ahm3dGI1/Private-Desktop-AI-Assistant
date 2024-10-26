@@ -1,6 +1,6 @@
-const { fileCmdHandler } = require("./parsers/files.js");
-const { calendarCmdHandler } = require("./parsers/calendar.js");
-const { gmailCmdHandler } = require("./parsers/gmail.js");
+const { fileCmdHandler } = require("./files.js");
+const { calendarCmdHandler } = require("./calendar.js");
+const { gmailCmdHandler } = require("./gmail.js");
 
 /**
  * A parser that takes the AI response and handles the tasks accordingly.

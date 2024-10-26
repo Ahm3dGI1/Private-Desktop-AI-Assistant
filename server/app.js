@@ -3,8 +3,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const ollamaService = require('./services/ollama.js');
-const { responseHandler } = require("./utils/responseHandler.js");
-const { callPythonTTS } = require("./services/tts.js");
+const { responseHandler } = require("./parsers/responseHandler.js");
+const { callPythonTTS } = require("./services/pythonMicroservice.js");
 
 const app = express();
 const PORT = process.env.PORT;

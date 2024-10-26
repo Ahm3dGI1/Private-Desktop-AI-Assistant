@@ -1,10 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
-const process = require('process');
 const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 const { auth } = require('googleapis/build/src/apis/abusiveexperiencereport');
 
+const process = require('process');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 // If modifying these scopes, delete token.json.
@@ -19,8 +19,8 @@ const SCOPES = [
 // created automatically when the authorization flow completes for the first
 // time.
 
-const TOKEN_PATH = process.env.CALENDAR_TOKEN_PATH;
-const CREDENTIALS_PATH = process.env.CALENDAR_CREDENTIALS_PATH;
+const TOKEN_PATH = process.env.GOOGLE_API_TOKEN_PATH;
+const CREDENTIALS_PATH = process.env.GOOGLE_API_CREDENTIALS_PATH;
 
 /**
  * Reads previously authorized credentials from the save file.

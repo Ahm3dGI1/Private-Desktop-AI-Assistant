@@ -1,5 +1,5 @@
-const { listLabels, listMessages, sendMessage } = require('../googleGmail/gmailUtility.js');
-const { authorize } = require('../../services/googleapi/auth.js');
+const { listLabels, listMessages, sendMessage } = require('../utils/googleGmail/gmailUtility.js');
+const { authorize } = require('../services/googleapi/auth.js');
 
 /**
  * Handles different Gmail commands.
