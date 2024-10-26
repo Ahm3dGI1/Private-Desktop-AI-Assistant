@@ -1,4 +1,4 @@
-const fs = require("fs").promises; // Use fs.promises for async handling
+const fs = require("fs").promises;
 const path = require("path");
 
 /**
@@ -11,18 +11,24 @@ const path = require("path");
  */
 exports.fileCmdHandler = async (task) => {
     console.log(`Handling file command: ${task}`);
-    
-    if (task.startsWith("##[file-create]")) {
-        const fileNameParts = task.replace("##[file-create]", "").trim().split(" ");
-        const fileName = fileNameParts.join("_");
-        const filePath = path.join(__dirname, "../../../sandbox");
 
+    const filePath = path.join(__dirname, "../../../sandbox");
+
+    // Use regex to match quoted strings in the command
+    const regex = /'([^']+)'/g;
+    const matches = [...task.matchAll(regex)].map(match => match[1]);
+
+    // Get file name and optional content
+    const fileName = matches[0];
+    const fileContent = matches[1] || ""; // Default to empty content
+
+    // Handle file editing and creation
+    if (task.startsWith("##[file-edit]")) {
         try {
-            const result = await fileCreate(filePath, fileName);
+            const result = await fileEdit(filePath, fileName, fileContent);
             return result;
         } catch (error) {
-            console.error(`Error in fileCmdHandler: ${error.message}`);
-            return `Failed to create file: ${error.message}`;
+            return `Failed to ${fileContent ? "edit" : "create"} file: ${error.message}`;
         }
     }
 
@@ -30,23 +36,27 @@ exports.fileCmdHandler = async (task) => {
 };
 
 /**
- * Creates a file at the specified path with the given name.
+ * Edits a file at the specified path with the given name.
  * If the directory does not exist, it will be created.
- *
- * @param {string} filePath - The path of the directory where the file will be created.
- * @param {string} fileName - The name of the file to be created.
- * @returns {string} - Confirmation message for the file creation.
+ * If the file does not exist, it will be created.
+ * 
+ * @param {string} filePath - The path of the directory where the file will be edited.
+ * @param {string} fileName - The name of the file to be edited.
+ * @param {string} fileContent - The content to be written to the file.
+ * @returns {string} - Confirmation message for the file editing or creation.
  */
-const fileCreate = async (filePath, fileName) => {
+const fileEdit = async (filePath, fileName, fileContent = "") => {
     const fullFilePath = path.join(filePath, fileName);
 
     try {
-        await fs.mkdir(filePath, { recursive: true }); // Create directory if it doesn't exist
-        await fs.writeFile(fullFilePath, ""); // Create an empty file
-        console.log(`File created at ${fullFilePath}`);
-        return `File created at ${fullFilePath}`;
+        // Ensure the directory exists
+        await fs.mkdir(filePath, { recursive: true });
+
+        // Write content to the file
+        await fs.writeFile(fullFilePath, fileContent);
+
+        return `File "${fileName}" ${fileContent ? "edited" : "created"} successfully`;
     } catch (error) {
-        console.error(`Error creating file: ${error.message}`);
-        throw new Error(`Error creating file: ${error.message}`);
+        throw new Error(`Error editing file: ${error.message}`);
     }
 };

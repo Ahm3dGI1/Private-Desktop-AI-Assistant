@@ -38,8 +38,11 @@ Special Commands:
 
 Use these commands in the "tasks" array when you need to perform specific actions:
 
-1. Create a file: ##[file-create] <file-name>
-   - The file path is hardcoded, so you only need to specify the file name.
+1. Editing/Creating a file: ##[file-edit] '<file-name>' '<content>'
+  - For file operations:
+    - If you're creating a file without content, leave the content field empty ("").
+    - The file path is hardcoded, so you only need to specify the file name.
+    - Use single quotes to wrap the file name and content since they might have space.
 2. Listing Google Calendar Events: ##[calendar-list]
 3. Creating Google Calendar Events: ##[calendar-create] <title> <start-time> <end-time>
 4. Listing the last emails from Gmail: ##[gmail-messages] <messagesNo>
