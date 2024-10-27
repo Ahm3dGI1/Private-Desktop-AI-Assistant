@@ -1,4 +1,4 @@
-const { createGithubRepo } = require('../utils/githubUtils.js');
+const { createGithubRepo, listGithubRepos } = require('../utils/githubUtils.js');
 
 /**
  * Handle the GitHub command.
@@ -11,7 +11,7 @@ async function githubCMDHandler(task){
 
     let result = "";
 
-    // Handle Gmail labels listing
+    // Handle Github create repo command
     if (task.startsWith("##[github-create-repo]")) {
         // Regex pattern to capture the parameters of the command since they can be more than one word and are wrapped in single quotes
         const regex = /'([^']+)'/g;
@@ -21,11 +21,15 @@ async function githubCMDHandler(task){
         const isPrivate = matches[1] === "private";
 
         result = await createGithubRepo(repoName, isPrivate);
-
-        return result;
-        
     }
 
+    // Handle Github list repos command
+    if (task.startsWith("##[github-list-repos]")) {
+        result = "List of repos";
 
+        result += await listGithubRepos();
+    }
+    
+    return result;
 };
 

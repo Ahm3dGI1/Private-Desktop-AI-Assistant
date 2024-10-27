@@ -38,13 +38,36 @@ async function createGithubRepo(name, isPrivate = true) {
         }
 
     } catch (error) {
-        console.error('Error:', error.message);
         return `Failed to create repository: ${error.message}`;
+    }
+}
+
+async function listGithubRepos() {
+    const url = `https://api.github.com/user/repos`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${GITHUB_TOKEN}`,
+                "Accept": "application/vnd.github.v3+json",
+            },
+        });
+
+        const data = await response.json();
+
+        if (response.status !== 200) {
+            return `Error listing repositories: ${data.message}`;
+        } else {
+            return data.map(repo => repo.full_name).join('\n');
+        }
+    } catch (error) {
+        return `Failed to list repositories: ${error.message}`;
     }
 }
 
 
 module.exports = {
     createGithubRepo,
-
+    listGithubRepos,
 };
