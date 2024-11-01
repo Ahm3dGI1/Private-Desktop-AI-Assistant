@@ -21,8 +21,9 @@ const SCOPES = [
 // created automatically when the authorization flow completes for the first
 // time.
 
-const CREDENTIALS_PATH =  path.join(__dirname, process.env.GOOGLE_API_CREDENTIALS);
-const TOKEN_PATH = path.join(__dirname, process.env.GOOGLE_API_TOKEN);
+
+const CREDENTIALS_PATH =  path.join(__dirname, process.env.GOOGLE_API_CREDENTIALS_PATH);
+const TOKEN_PATH = path.join(__dirname, process.env.GOOGLE_API_TOKEN_PATH);
 
 /**
  * Reads previously authorized credentials from the save file.
