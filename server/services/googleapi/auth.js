@@ -21,8 +21,8 @@ const SCOPES = [
 // created automatically when the authorization flow completes for the first
 // time.
 
-const TOKEN_PATH = process.env.GOOGLE_API_TOKEN_PATH;
-const CREDENTIALS_PATH = process.env.GOOGLE_API_CREDENTIALS_PATH;
+const TOKEN_PATH = "token.json";
+const CREDENTIALS_PATH =  path.join(__dirname, './credentials.json');
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -76,6 +76,8 @@ async function authorize() {
   }
   return client;
 }
+
+authorize().catch(console.error);
 
 module.exports = {
   authorize,
