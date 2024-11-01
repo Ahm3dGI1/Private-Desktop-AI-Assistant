@@ -14,15 +14,14 @@ async function listConnectionNames(auth) {
   });
   const connections = res.data.connections;
   if (!connections || connections.length === 0) {
-    console.log('No connections found.');
-    return;
+    return 'No connections found.';
   }
-  console.log('Connections:');
+  let result = 'Connections:\n';
   connections.forEach((person) => {
     if (person.names && person.names.length > 0) {
-      console.log(person.names[0].displayName);
+      result += `${person.names[0].displayName}\n`;
     } else {
-      console.log('No display name found for connection.');
+      result += 'No display name found for connection.\n';
     }
   });
 }
