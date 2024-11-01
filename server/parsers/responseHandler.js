@@ -1,6 +1,9 @@
 const { fileCmdHandler } = require("./files.js");
 const { calendarCmdHandler } = require("./calendar.js");
 const { gmailCmdHandler } = require("./gmail.js");
+const { contactsCmdHandler } = require("./contacts.js");
+const { githubCmdHandler } = require("./github.js");
+const { newsCMDHandler } = require("./news.js");
 
 /**
  * A parser that takes the AI response and handles the tasks accordingly.
@@ -38,6 +41,21 @@ exports.responseHandler = async (tasksList) => {
             // Handle Gmail commands
             else if (task.startsWith("##[gmail-list]") || task.startsWith("##[gmail-messages]") || task.startsWith("##[gmail-send]")) {
                 taskResultText += await gmailCmdHandler(task) + "\n";
+            }
+
+            // Handle contacts commands
+            else if (task.startsWith("##[contacts-list]")) {
+                taskResultText += await contactsCmdHandler(task) + "\n";
+            }
+
+            // Handle Github commands
+            else if (task.startsWith("##[github-list-repos]") || task.startsWith("##[github-create-repo]")) {
+                taskResultText += await githubCmdHandler(task) + "\n";
+            }
+
+            // Handle News commands
+            else if (task.startsWith("##[news-list]")) {
+                taskResultText += await newsCMDHandler(task) + "\n";
             }
 
             // If the task doesn't match any known command
