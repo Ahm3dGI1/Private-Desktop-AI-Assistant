@@ -26,17 +26,23 @@ app.post('/api/ollama', async (req, res) => {
 
         const ollamaResponse = await ollamaService.generateCompletion(messages);
 
-            // Handle the response tasks
-            const taskResultText = await responseHandler(ollamaResponse.tasks);
+        const { curr_task, task_queue, message: aiResponse } = ollamaResponse;
 
-            // Return the message to be spoken
+        const taskResultText = await responseHandler(curr_task);
 
-            const aiResponse = ollamaResponse.message + '\n' + taskResultText;
-            const sysResponse = taskResultText;
+        const sysResponse = task_queue.length === 0 ? taskResultText : null;
+        const userReprompt = task_queue.length > 0 ? taskResultText : null;
 
-            callPythonTTS(aiResponse);
+        callPythonTTS(aiResponse).catch(console.error);
 
-        return res.json({ aiResponse, sysResponse });
+        return res.json({
+            aiResponse,
+            sysResponse,
+            userReprompt,
+            taskQueue: task_queue,
+            currTask: curr_task
+        });
+        
     } catch (error) {
         console.error('Error generating AI response:', error);
         return res.status(500).json({ error: 'Failed to generate AI response' });

@@ -23,7 +23,7 @@ exports.fileCmdHandler = async (task) => {
     const fileContent = matches[1] || ""; // Default to empty content
 
     // Handle file editing and creation
-    if (task.startsWith("##[file-edit]")) {
+    if (task.startsWith("##[file-edit]") || task.startsWith("##[file-create]")) {
         try {
             const result = await fileEdit(filePath, fileName, fileContent);
             return result;

@@ -19,3 +19,10 @@
 .chat-message.assistant{
     background-color: var(--primary-color);   
 }
+
+.chat-message.system{
+    background-color: var(--secondary-color);
+    text-align: center;
+    max-width: 100%;
+
+}
