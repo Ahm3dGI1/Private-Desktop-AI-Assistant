@@ -1,6 +1,17 @@
 # Private-Desktop-AI-Assistant
 This project is a comprehensive AI assistant that can handle various tasks such as file creation and Google Calendar integration. The application combines a client-side React application, an Electron-based desktop application, and a server-side Node.js application. It uses an Ollama model as the AI powering the application and a JS parser to allow the AI to interact with the Operating System. The output of the AI is in the form of a JSON file that has the message and the tasks separated to avoid any miscalling for the tasks.
 
+## Features
+
+- **Speech Recognition**: Convert spoken language into text using advanced speech recognition models.
+- **Text-to-Speech**: Convert text into spoken language using text-to-speech technology.
+- **Email Management**: Read, list, and send emails using the Gmail API.
+- **Calendar Management**: List and create events on Google Calendar.
+- **News Fetching**: Fetch top news headlines based on user queries.
+- **Contact Management**: List contacts from the user's Google account.
+- **File Management**: Create and edit files within the application.
+- **GitHub Integration**: List and create repositories on GitHub.
+
 ## Project Structure
 The project is organized into three main directories: `client`, `electron`, and `server`.
 
@@ -78,27 +89,15 @@ Dependencies:
     "express": "^4.21.0",
     "fs": "^0.0.1-security",
     "googleapis": "^105.0.0",
-    "path": "^0.12.7"
+    "newsapi": "^2.4.1",
+    "path": "^0.12.7",
+    "say": "^0.16.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
   }
 }
 ```
-
-## Key Functionalities
-
-1. **File Creation:**
-
-    * Handler: `fileCmdHandler`
-
-    * Function: Manipulates files and folders in a sandbox directory when a task with the command `##[file-*task*]` is received.
-
-2. **Google Calendar Integration:**
-
-    * Handler: `calendarCmdHandler`
-
-    * Functions: Lists, adds, and edits events to Google Calendar based on the command recieved `##[calendar-*task*]`.
 
 ## Getting Started
 
@@ -109,16 +108,26 @@ Dependencies:
 ### Installation
 
 1. Clone the repository: git clone https://github.com/Ahm3dGI1/private-desktop-ai-assistant.git cd private-desktop-ai-assistant
-2. Install dependencies for the client: cd client npm install
-3. Install dependencies for the server: cd ../server npm install
-4. Install dependencies for the Electron application: cd ../electron npm install
+2. Install dependencies for the client: cd ./client npm install
+3. Install dependencies for the server: cd ./server npm install
 
 ### Running the Application
-1. Start the server: cd server npm start
+1. Start the server: 
+    ```bash
+    cd ./server npm start
+    ```
 
-2. Start the client: cd ../client npm start
+2. Start the client:
+    ```bash
+    cd ./client npm start
+    ```
 
-3. Start the Electron application: cd ../electron npm run electron-start
+3. Start the Python Microservices: 
+    ```bash
+    cd ./python_microservice
+    ./venv/Scripts/activate
+    python app.py
+    ```
 
 ## License
 This project is licensed under the MIT License.
