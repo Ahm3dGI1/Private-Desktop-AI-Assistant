@@ -9,10 +9,10 @@ const path = require("path");
  * @param {string} task - The task to be executed.
  * @returns {string} - The result of the command execution.
  */
-exports.fileCmdHandler = async (task) => {
+async function fileCmdHandler (task){
     console.log(`Handling file command: ${task}`);
 
-    const filePath = path.join(__dirname, "../../../sandbox");
+    const filePath = path.join(__dirname, "../../sandbox");
 
     // Use regex to match quoted strings in the command
     const regex = /'([^']+)'/g;
@@ -20,12 +20,14 @@ exports.fileCmdHandler = async (task) => {
 
     // Get file name and optional content
     const fileName = matches[0];
-    const fileContent = matches[1] || ""; // Default to empty content
+    const fileContent = matches[1] || "untitled.txt"; // Default to empty content
 
     // Handle file editing and creation
     if (task.startsWith("##[file-edit]") || task.startsWith("##[file-create]")) {
         try {
             const result = await fileEdit(filePath, fileName, fileContent);
+            console.log(`Editing file: ${filePath, fileName}`);
+
             return result;
         } catch (error) {
             return `Failed to ${fileContent ? "edit" : "create"} file: ${error.message}`;
@@ -47,7 +49,6 @@ exports.fileCmdHandler = async (task) => {
  */
 const fileEdit = async (filePath, fileName, fileContent = "") => {
     const fullFilePath = path.join(filePath, fileName);
-
     try {
         // Ensure the directory exists
         await fs.mkdir(filePath, { recursive: true });
@@ -60,3 +61,5 @@ const fileEdit = async (filePath, fileName, fileContent = "") => {
         throw new Error(`Error editing file: ${error.message}`);
     }
 };
+
+module.exports = { fileCmdHandler };

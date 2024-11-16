@@ -38,18 +38,44 @@ async function listMessages(auth, maxResults = 10) {
 
   const messages = res.data.messages || [];
   if (messages.length === 0) {
-    return ['No messages found.'];
+    return 'No messages found.';
   }
 
-  const messagesSnippets = await Promise.all(messages.map(async (message) => {
+  // Fetch detailed information for each message
+  const messageSummaries = await Promise.all(messages.map(async (message) => {
     const msg = await gmail.users.messages.get({
       userId: 'me',
       id: message.id,
     });
-    return msg.data.snippet;
+
+    // Extract relevant details
+    const headers = msg.data.payload.headers;
+    const sender = headers.find(header => header.name === 'From')?.value || 'Unknown Sender';
+    const subject = headers.find(header => header.name === 'Subject')?.value || 'No Subject';
+
+    return {
+      sender,
+      subject,
+    };
   }));
 
-  return messagesSnippets;
+  return formatEmailSummaries(messageSummaries);
+}
+
+/**
+ * Formats email summaries into a user-friendly string or JSON response.
+ *
+ * @param {Array<Object>} emailSummaries - List of email summaries.
+ * @returns {string} - Formatted email summaries for display or return.
+ */
+function formatEmailSummaries(emailSummaries) {
+  if (emailSummaries === 'No messages found.') {
+    return emailSummaries;
+  }
+
+  return emailSummaries.map((email, index) => (
+    `${index + 1}. Sender: ${email.sender}\n   Subject: ${email.subject}`
+  )).join('\n\n');
 }
 
 /**

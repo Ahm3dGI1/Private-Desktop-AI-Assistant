@@ -6,13 +6,13 @@ import './App.css';
 import InputBar from './components/input_bar';
 import ChatLog from './components/chat_log';
 
-import { AI_MODEL_TEMPLATE } from './constraints/template';
+import { AI_MODEL_TEMPLATE, AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS } from './constraints/template';
 
 
 // Define the system message to set the behavior of the AI
 const SYSTEM_TEMPLATE = {
   role: "system",
-  content: AI_MODEL_TEMPLATE
+  content: AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS // AI_MODEL_TEMPLATE or AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS
 };
 
 
