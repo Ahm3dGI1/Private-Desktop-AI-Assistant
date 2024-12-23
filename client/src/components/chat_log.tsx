@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import ChatMessage from "./chat_message";
 
@@ -9,6 +9,16 @@ interface ChatLogProps {
 }
 
 const ChatLog: React.FC<ChatLogProps> = ({ messages }) => {
+
+    const chatLogRef = useRef<HTMLDivElement | null>(null);
+
+    // Automatically scroll to the bottom when messages change
+    useEffect(() => {
+        if (chatLogRef.current) {
+            chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+        }
+    }, [messages]);
+
     return (
         <>
             <div className="chat-log">

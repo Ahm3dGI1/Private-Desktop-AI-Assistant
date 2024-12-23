@@ -1,5 +1,4 @@
 import React from "react";
-import Markdown from "react-markdown";
 import MarkdownRender from "./markdown_renderer";
 
 import "./chat_message.css";

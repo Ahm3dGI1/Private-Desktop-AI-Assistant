@@ -16,7 +16,7 @@
 
 .chat-message.user{
     background-color: var(--primary-color);   
-    text-align: right;
+    text-align: left;
     margin-left: auto;
 }
 

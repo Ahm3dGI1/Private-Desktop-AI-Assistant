@@ -6,9 +6,26 @@ interface MarkdownRenderProps {
     content: string;
 }
 
+const config = {
+    loader: {
+        load: ["[tex]/html"],
+    },
+    tex: {
+        packages: { "[+]": ["html"] },
+        inlineMath: [["$", "$"]],
+        displayMath: [["$$", "$$"]],
+        processEscapes: true,
+        processEnvironments: true,
+    },
+    chtml: {
+        scale: 1,
+        mtextInheritFont: true,
+    },
+};
+
 const MarkdownRender: React.FC<MarkdownRenderProps> = ({ content }) => {
     return (
-        <MathJaxContext>
+        <MathJaxContext config={config}>
             <div className="App">
                 <MathJax dynamic hideUntilTypeset="every">
                     <ReactMarkdown>{content}</ReactMarkdown>
