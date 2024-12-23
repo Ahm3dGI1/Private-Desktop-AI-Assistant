@@ -5,19 +5,25 @@
     width: fit-content;
     max-width: 70%;
     margin: 5px;
-    padding: 10px;
+    padding: 0 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'system-ui';
 }
 
 .chat-message.user{
-    background-color: var(--tertiary-color);   
+    background-color: var(--primary-color);   
     text-align: right;
     margin-left: auto;
 }
 
 .chat-message.assistant{
-    background-color: var(--primary-color);   
+    max-width: 100%;
+    width: auto;
+    box-shadow: none;
 }
 
 .chat-message.system{

@@ -1,5 +1,6 @@
 import React from "react";
 import Markdown from "react-markdown";
+import MarkdownRender from "./markdown_renderer";
 
 import "./chat_message.css";
 
@@ -12,7 +13,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, sender }) => {
     return (
         <div className={`chat-message ${sender.toLowerCase()}`}>
             <div className="chat-message-text">
-                <Markdown>{message}</Markdown> {/* Render message as Markdown */}
+                <MarkdownRender content={message} />
             </div>
         </div>
     );

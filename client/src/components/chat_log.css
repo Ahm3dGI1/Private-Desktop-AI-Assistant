@@ -4,6 +4,9 @@
     margin: 20px;
     overflow-y: scroll;
     height: 82vh;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
     padding: 10px;
     background-color: var(--secondary-color);
     border: solid 1px var(--secondary-color);
