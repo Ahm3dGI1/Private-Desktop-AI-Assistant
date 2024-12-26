@@ -6,7 +6,7 @@ exports.generateCompletion = async (messages) => {
     const response = await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
         body: JSON.stringify({
-            "model": "dolphin-mistral:7b-v2.8",
+            "model": "llama3.1",
             "messages": messages,
             "format": "json",
             "stream": false,

@@ -21,55 +21,43 @@ const { newsCMDHandler } = require("./news.js");
  * @param {Array<string>} tasksList - The list of tasks to be executed.
  * @returns {string} - The result of all the tasks concatenated into one response string.
  */
-exports.responseHandler = async (tasksList) => {
+async function responseHandler(tasksList){
+    if (!tasksList || tasksList.length === 0) {
+        return "";
+    }
+
+    const tasksDict = {
+        "file-edit": fileCmdHandler,
+        "file-create": fileCmdHandler,
+        "calendar-list": calendarCmdHandler,
+        "calendar-add": calendarCmdHandler,
+        "gmail-list": gmailCmdHandler,
+        "gmail-messages": gmailCmdHandler,
+        "gmail-send": gmailCmdHandler,
+        "contacts-list": contactsCmdHandler,
+        "github-list-repos": githubCmdHandler,
+        "github-create-repo": githubCmdHandler,
+        "news-list": newsCMDHandler
+    }
+    
     let taskResultText = "";
-    console.log(tasksList);
+
     for (let task of tasksList) {
-
-        if (task.includes("{last-response}")) {
-            task = task.replace("{last-response}", taskResultText.trim());
-        }
-
+        const taskName = task.command
+        const taskParams = task.parameters
+        const taskHandler = tasksDict[taskName]
+        
         try {
-            // Handle file commands
-            if (task.startsWith("##[file-edit]") || task.startsWith("##[file-create]")) {
-                taskResultText = await fileCmdHandler(task) + "\n";
-            }
-
-            // Handle calendar commands
-            else if (task.startsWith("##[calendar-list]") || task.startsWith("##[calendar-add]")) {
-                taskResultText = await calendarCmdHandler(task) + "\n";
-            }
-
-            // Handle Gmail commands
-            else if (task.startsWith("##[gmail-list]") || task.startsWith("##[gmail-messages]") || task.startsWith("##[gmail-send]")) {
-                taskResultText = await gmailCmdHandler(task) + "\n";
-            }
-
-            // Handle contacts commands
-            else if (task.startsWith("##[contacts-list]")) {
-                taskResultText = await contactsCmdHandler(task) + "\n";
-            }
-
-            // Handle Github commands
-            else if (task.startsWith("##[github-list-repos]") || task.startsWith("##[github-create-repo]")) {
-                taskResultText = await githubCmdHandler(task) + "\n";
-            }
-
-            // Handle News commands
-            else if (task.startsWith("##[news-list]")) {
-                taskResultText = await newsCMDHandler(task) + "\n";
-            }
-
-            // If the task doesn't match any known command
-            else {
-                console.warn(`Unrecognized task: ${task}`);
-                taskResultText = `Unrecognized task: ${task}\n`;
-            }
-        } catch (error) {
-            console.error(`Error processing task: ${task}, Error: ${error.message}`);
-            taskResultText = `Error processing task: ${task}\n`;
+            taskResultText += await taskHandler(taskName, taskParams) + "\n";
+        }catch (error) {
+            console.error(`Error executing task: ${taskName}`, error);
+            taskResultText += `Failed to execute task: ${taskName}\n`;
         }
     }
+
     return taskResultText.trim();
+};
+
+module.exports = {
+    responseHandler
 };

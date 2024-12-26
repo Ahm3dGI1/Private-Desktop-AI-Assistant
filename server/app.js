@@ -26,13 +26,13 @@ app.post('/api/ollama', async (req, res) => {
 
         const ollamaResponse = await ollamaService.generateCompletion(messages);
 
-            // Handle the response tasks
-            const taskResultText = await responseHandler(ollamaResponse.tasks);
+        // Handle the response tasks
+        const taskResultText = await responseHandler(ollamaResponse.tasks);
 
-            // Return the message to be spoken
-            const aiResponse = ollamaResponse.message + '\n' + taskResultText;
+        // Return the message to be spoken
+        const aiResponse = ollamaResponse.message + '\n' + taskResultText;
 
-            callPythonTTS(aiResponse);
+        callPythonTTS(aiResponse);
 
         return res.json({ aiResponse });
     } catch (error) {

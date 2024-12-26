@@ -10,38 +10,32 @@ const { listEvents, addEvent } = require("../utils/calendarUtils.js");
  * @param {string} task - The task to be executed.
  * @returns {string} - The result of the command.
  */
-exports.calendarCmdHandler = async (task) => {
+exports.calendarCmdHandler = async (taskName, taskParams) => {
     try {
-        console.log(`Handling calendar command: ${task}`);
-
         // Authorize the client first
         const client = await authorize();
         let result = "";
 
-        // Handle Calendar events listing
-        if (task.startsWith("##[calendar-list]")) {
+        // Events listing
+        if (taskName === "calendar-list") {
             const events = await listEvents(client);
             result += "Upcoming Calendar Events:\n";
             result += events.join("\n");
-
-            return result;
         }
 
-        // Handle Calendar event addition
-        if (task.startsWith("##[calendar-add]")) {
+        // Event addition
+        if (taskName === "calendar-add") {
             const eventDetails = {
-                summary: "Test Event",
-                location: "Test Location",
-                description: "Test Description",
-                startDateTime: "2021-08-01T12:00:00-07:00",
-                endDateTime: "2021-08-01T13:00:00-07:00"
+                "title" : taskParams.title,
+                "startTime" : taskParams.startTime,
+                "endTime" : taskParams.endTime
             };
 
             await addEvent(client, eventDetails);
-            return "Event added to the calendar successfully.";
+            result = "Event added to the calendar successfully.";
         }
-
-        return "Invalid command.";
+        
+        return result;
     } catch (error) {
         console.error(`Error handling calendar command: ${error.message}`);
         return "An error occurred while handling the calendar command.";

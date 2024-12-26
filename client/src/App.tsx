@@ -6,7 +6,7 @@ import './App.css';
 import InputBar from './components/input_bar';
 import ChatLog from './components/chat_log';
 
-import { AI_MODEL_TEMPLATE, AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS } from './constraints/template';
+import { AI_MODEL_TEMPLATE } from './constraints/template';
 
 
 // For sequential function calling, repromt the AI with the whole message chain while highlighting The global Task, The task Queue, and the last task response.
@@ -14,7 +14,7 @@ import { AI_MODEL_TEMPLATE, AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS } from './const
 // Define the system message to set the behavior of the AI
 const SYSTEM_TEMPLATE = {
   role: "system",
-  content: AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS // AI_MODEL_TEMPLATE or AI_MODEL_TEMPLATE_CHAINED_CONTINUOUS
+  content: AI_MODEL_TEMPLATE // AI_MODEL_TEMPLATE
 };
 
 
@@ -50,7 +50,7 @@ function App() {
 
       setMessages([...newMessages]);
 
-      console.log(messages);
+      console.log(aiMessage.content);
 
     } catch (error) {
       console.error('Error:', error);
