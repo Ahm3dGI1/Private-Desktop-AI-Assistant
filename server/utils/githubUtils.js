@@ -6,11 +6,11 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 /**
- * Create a new repository on GitHub.
+ * Create a new repository on GitHub with Markdown-formatted results.
  * 
  * @param {String} name Name of the repository to create.
  * @param {Boolean} isPrivate Whether the repository should be public or private.
- * @returns {String} Result message indicating success or failure.
+ * @returns {String} Result message in Markdown indicating success or failure.
  */
 async function createGithubRepo(name, isPrivate = true) {
     const url = `https://api.github.com/user/repos`;
@@ -32,16 +32,21 @@ async function createGithubRepo(name, isPrivate = true) {
         const data = await response.json();
 
         if (response.status !== 201) {
-            return `Error creating repository: ${data.message}`;
+            return `- **Error**: ${data.message}`;
         } else {
-            return `Repository created successfully at: ${data.html_url}`;
+            return `- **Repository Created Successfully**: [${data.name}](${data.html_url})`;
         }
 
     } catch (error) {
-        return `Failed to create repository: ${error.message}`;
+        return `- **Error**: ${error.message}`;
     }
 }
 
+/**
+ * List repositories in the user's GitHub account with Markdown formatting.
+ * 
+ * @returns {string} Formatted list of repositories or an error message.
+ */
 async function listGithubRepos() {
     const url = `https://api.github.com/user/repos`;
 
@@ -57,15 +62,14 @@ async function listGithubRepos() {
         const data = await response.json();
 
         if (response.status !== 200) {
-            return `Error listing repositories: ${data.message}`;
+            return `- **Error**: ${data.message}`;
         } else {
-            return data.map(repo => repo.full_name).join('\n');
+            return data.map((repo, index) => `**${index + 1}. [${repo.full_name}](${repo.html_url})**`).join("\n");
         }
     } catch (error) {
-        return `Failed to list repositories: ${error.message}`;
+        return `- **Error**: ${error.message}`;
     }
 }
-
 
 module.exports = {
     createGithubRepo,

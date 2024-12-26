@@ -9,12 +9,12 @@ const path = require("path");
  * @param {string} taskName - The command type (e.g., "file-create", "file-edit").
  * @param {Object} taskParams - The parameters for the file command.
  * @param {string} taskParams.fileName - The name of the file to be created or edited.
- * @param {string|string[]} taskParams.fileContent - The content to be written to the file.
- * @returns {string} - The result of the command execution.
+ * @param {string|string[]} [taskParams.fileContent] - The content to be written to the file (optional for empty files).
+ * @returns {string} - The result of the command execution in Markdown format.
  */
 async function fileCmdHandler(taskName, taskParams) {
     if (!taskParams?.fileName) {
-        return `Invalid file command: Missing fileName parameter.`;
+        return `### Error\n\n- **Reason**: Missing \`fileName\` parameter.`;
     }
 
     const filePath = path.join(__dirname, "../../sandbox");
@@ -34,10 +34,10 @@ async function fileCmdHandler(taskName, taskParams) {
         await fs.writeFile(fullFilePath, fileContent);
 
         const operation = taskName === "file-create" ? "created" : "edited";
-        return `File "${fileName}" ${operation} successfully.`;
+        return `### File Operation Success\n\n- **File**: \`${fileName}\`\n- **Operation**: ${operation} successfully.\n- **Directory**: \`${filePath}\``;
     } catch (error) {
         console.error(`Error handling file command: ${taskName}`, error);
-        return `Failed to handle file operation for "${fileName}": ${error.message}`;
+        return `### Error\n\n- **File**: \`${fileName}\`\n- **Reason**: ${error.message}`;
     }
 }
 

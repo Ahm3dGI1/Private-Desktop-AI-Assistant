@@ -2,7 +2,7 @@ const { listLabels, listMessages, sendMessage } = require('../utils/gmailUtils.j
 const { authorize } = require('../services/googleapi/auth.js');
 
 /**
- * Handles Gmail-related commands.
+ * Handles Gmail-related commands with Markdown formatting.
  * 
  * @param {string} taskName - The Gmail command to execute (e.g., "gmail-list", "gmail-messages", "gmail-send").
  * @param {Object} taskParams - The parameters for the Gmail command.
@@ -10,7 +10,7 @@ const { authorize } = require('../services/googleapi/auth.js');
  * @param {string} [taskParams.recipient] - Recipient email address (required for "gmail-send").
  * @param {string} [taskParams.subject] - Email subject (required for "gmail-send").
  * @param {string} [taskParams.message] - Email body (required for "gmail-send").
- * @returns {string} - The result of the Gmail command execution.
+ * @returns {string} - The result of the Gmail command execution in Markdown format.
  */
 exports.gmailCmdHandler = async (taskName, taskParams) => {
     try {
@@ -21,12 +21,12 @@ exports.gmailCmdHandler = async (taskName, taskParams) => {
         switch (taskName) {
             case "gmail-list":
                 const labels = await listLabels(client);
-                result = `Gmail Labels:\n${labels.join("\n")}`;
+                result = `### Gmail Labels:\n\n${labels.map(label => `- **${label}**`).join("\n")}`;
                 break;
 
             case "gmail-messages":
                 const messages = await listMessages(client, taskParams.messagesNo);
-                result = `Last ${taskParams.messagesNo} Gmail Messages:\n${messages.join("\n")}`;
+                result = `### Last ${taskParams.messagesNo} Gmail Messages:\n\n${messages}`;
                 break;
 
             case "gmail-send":
@@ -41,12 +41,13 @@ exports.gmailCmdHandler = async (taskName, taskParams) => {
                     message,
                 };
                 result = await sendMessage(client, emailDetails);
+                result = `### Email Sent Successfully:\n\n- **Recipient**: ${recipient}\n- **Subject**: ${subject}\n- **Message**: ${message}`;
                 break;
         }
 
         return result;
     } catch (error) {
         console.error(`Error handling Gmail command: ${taskName}`, error);
-        return `An error occurred while handling the Gmail command: ${error.message}`;
+        return `### An error occurred:\n\n- **Command**: ${taskName}\n- **Error**: ${error.message}`;
     }
 };

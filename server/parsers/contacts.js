@@ -9,7 +9,7 @@ const { listConnectionNames } = require('../utils/contactsUtils.js');
  * 
  * @param {string} taskName - The command to execute (e.g., "contacts-list").
  * @param {Object} taskParams - Additional parameters for the task (not used currently, but kept for extensibility).
- * @returns {string} - The result of the task.
+ * @returns {string} - The result of the task in Markdown format.
  */
 async function contactsCmdHandler(taskName, taskParams) {
     try {
@@ -20,19 +20,19 @@ async function contactsCmdHandler(taskName, taskParams) {
         const contacts = await listConnectionNames(client);
 
         if (!contacts || contacts.length === 0) {
-            return "No contacts found in your Google account.";
+            return `### Contacts\n\n- No contacts found in your Google account.`;
         }
 
-        // Format the contacts list
+        // Format the contacts list in Markdown
         const result = [
-            "Your Google Contacts:",
-            ...contacts.map((contact, index) => `${index + 1}. ${contact}`),
+            "### Your Google Contacts",
+            ...contacts.map((contact, index) => `- **${index + 1}.** ${contact}`),
         ].join("\n");
 
         return result;
     } catch (error) {
         console.error(`Error in contactsCmdHandler for command "${taskName}":`, error);
-        return `Failed to list contacts: ${error.message}`;
+        return `### Error\n\n- Failed to list contacts: ${error.message}`;
     }
 }
 

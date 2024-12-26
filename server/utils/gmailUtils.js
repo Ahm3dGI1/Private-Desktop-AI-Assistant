@@ -63,19 +63,20 @@ async function listMessages(auth, maxResults = 10) {
 }
 
 /**
- * Formats email summaries into a user-friendly string or JSON response.
+ * Formats email summaries into a Markdown-friendly string.
  *
  * @param {Array<Object>} emailSummaries - List of email summaries.
- * @returns {string} - Formatted email summaries for display or return.
+ * @returns {string} - Formatted email summaries for display.
  */
 function formatEmailSummaries(emailSummaries) {
   if (emailSummaries === 'No messages found.') {
-    return emailSummaries;
+      return emailSummaries;
   }
 
   return emailSummaries.map((email, index) => (
-    `${index + 1}. Sender: ${email.sender}\n   Subject: ${email.subject}`
-  )).join('\n\n');
+      `**${index + 1}. Sender**: ${email.sender}\n` +
+      `**Subject**: ${email.subject}\n`
+  )).join("\n---\n");
 }
 
 /**

@@ -1,5 +1,5 @@
-const { authorize } = require("../services/googleapi/auth.js");
-const { listEvents, addEvent } = require("../utils/calendarUtils.js");
+const { authorize } = require('../services/googleapi/auth.js');
+const { listEvents, addEvent } = require('../utils/calendarUtils.js');
 
 /**
  * Handles Calendar-related commands.
@@ -10,7 +10,7 @@ const { listEvents, addEvent } = require("../utils/calendarUtils.js");
  * 
  * @param {string} taskName - The command to execute (e.g., "calendar-list", "calendar-add").
  * @param {Object} taskParams - Additional parameters for the task.
- * @returns {string} - The result of the command.
+ * @returns {string} - The result of the command in Markdown format.
  */
 async function calendarCmdHandler(taskName, taskParams) {
     try {
@@ -24,13 +24,13 @@ async function calendarCmdHandler(taskName, taskParams) {
             const events = await listEvents(client);
 
             if (!events || events.length === 0) {
-                return "No upcoming events found in your calendar.";
+                return "### Upcoming Events\n\n- No upcoming events found in your calendar.";
             }
 
             // Format the event list
             result = [
-                "Upcoming Calendar Events:",
-                ...events.map((event, index) => `${index + 1}. ${event}`),
+                "### Upcoming Calendar Events",
+                ...events.map((event, index) => `- **${index + 1}.** ${event}`),
             ].join("\n");
         }
 
@@ -39,7 +39,7 @@ async function calendarCmdHandler(taskName, taskParams) {
             // Validate required parameters
             const { title, startTime, endTime } = taskParams;
             if (!title || !startTime || !endTime) {
-                return "Missing required parameters for adding an event. Ensure 'title', 'startTime', and 'endTime' are provided.";
+                return "### Error\n\n- Missing required parameters for adding an event. Ensure `title`, `startTime`, and `endTime` are provided.";
             }
 
             const eventDetails = {
@@ -49,13 +49,13 @@ async function calendarCmdHandler(taskName, taskParams) {
             };
 
             await addEvent(client, eventDetails);
-            result = `Event "${title}" added to the calendar successfully.`;
+            result = `### Event Added Successfully\n\n- Event **"${title}"** has been added to your calendar.`;
         }
 
         return result;
     } catch (error) {
         console.error(`Error handling calendar command: ${error.message}`);
-        return `An error occurred while handling the calendar command: ${error.message}`;
+        return `### Error\n\n- An error occurred while handling the calendar command: ${error.message}`;
     }
 }
 
