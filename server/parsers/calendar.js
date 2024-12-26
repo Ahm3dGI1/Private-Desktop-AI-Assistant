@@ -12,7 +12,7 @@ const { listEvents, addEvent } = require('../utils/calendarUtils.js');
  * @param {Object} taskParams - Additional parameters for the task.
  * @returns {string} - The result of the command in Markdown format.
  */
-async function calendarCmdHandler(taskName, taskParams) {
+async function calendarCMDHandler(taskName, taskParams) {
     try {
         // Authorize the client
         const client = await authorize();
@@ -60,5 +60,5 @@ async function calendarCmdHandler(taskName, taskParams) {
 }
 
 module.exports = {
-    calendarCmdHandler,
+    calendarCMDHandler,
 };

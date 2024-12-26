@@ -12,7 +12,7 @@ const { authorize } = require('../services/googleapi/auth.js');
  * @param {string} [taskParams.message] - Email body (required for "gmail-send").
  * @returns {string} - The result of the Gmail command execution in Markdown format.
  */
-exports.gmailCmdHandler = async (taskName, taskParams) => {
+async function gmailCMDHandler (taskName, taskParams){
     try {
         // Authorize the client
         const client = await authorize();
@@ -51,3 +51,5 @@ exports.gmailCmdHandler = async (taskName, taskParams) => {
         return `### An error occurred:\n\n- **Command**: ${taskName}\n- **Error**: ${error.message}`;
     }
 };
+
+module.exports = { gmailCMDHandler };

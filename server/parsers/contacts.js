@@ -11,7 +11,7 @@ const { listConnectionNames } = require('../utils/contactsUtils.js');
  * @param {Object} taskParams - Additional parameters for the task (not used currently, but kept for extensibility).
  * @returns {string} - The result of the task in Markdown format.
  */
-async function contactsCmdHandler(taskName, taskParams) {
+async function contactsCMDHandler(taskName, taskParams) {
     try {
         // Authorize the client
         const client = await authorize();
@@ -31,11 +31,11 @@ async function contactsCmdHandler(taskName, taskParams) {
 
         return result;
     } catch (error) {
-        console.error(`Error in contactsCmdHandler for command "${taskName}":`, error);
+        console.error(`Error in contactsCMDHandler for command "${taskName}":`, error);
         return `### Error\n\n- Failed to list contacts: ${error.message}`;
     }
 }
 
 module.exports = {
-    contactsCmdHandler,
+    contactsCMDHandler,
 };

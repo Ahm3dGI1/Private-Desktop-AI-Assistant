@@ -1,9 +1,9 @@
-const { fileCmdHandler } = require("./files.js");
-const { calendarCmdHandler } = require("./calendar.js");
-const { gmailCmdHandler } = require("./gmail.js");
-const { contactsCmdHandler } = require("./contacts.js");
-const { githubCmdHandler } = require("./github.js");
-const { newsCmdHandler } = require("./news.js");
+const { fileCMDHandler } = require("./files.js");
+const { calendarCMDHandler } = require("./calendar.js");
+const { gmailCMDHandler } = require("./gmail.js");
+const { contactsCMDHandler } = require("./contacts.js");
+const { githubCMDHandler } = require("./github.js");
+const { newsCMDHandler } = require("./news.js");
 
 /**
  * A parser that takes the AI response and handles the tasks accordingly.
@@ -23,17 +23,17 @@ async function responseHandler(tasksList) {
     }
 
     const taskHandlers = {
-        "file-edit": fileCmdHandler,
-        "file-create": fileCmdHandler,
-        "calendar-list": calendarCmdHandler,
-        "calendar-add": calendarCmdHandler,
-        "gmail-list": gmailCmdHandler,
-        "gmail-messages": gmailCmdHandler,
-        "gmail-send": gmailCmdHandler,
-        "contacts-list": contactsCmdHandler,
-        "github-list-repos": githubCmdHandler,
-        "github-create-repo": githubCmdHandler,
-        "news-list": newsCmdHandler,
+        "file-edit": fileCMDHandler,
+        "file-create": fileCMDHandler,
+        "calendar-list": calendarCMDHandler,
+        "calendar-add": calendarCMDHandler,
+        "gmail-list": gmailCMDHandler,
+        "gmail-messages": gmailCMDHandler,
+        "gmail-send": gmailCMDHandler,
+        "contacts-list": contactsCMDHandler,
+        "github-list-repos": githubCMDHandler,
+        "github-create-repo": githubCMDHandler,
+        "news-list": newsCMDHandler,
     };
 
     let taskResultText = "";

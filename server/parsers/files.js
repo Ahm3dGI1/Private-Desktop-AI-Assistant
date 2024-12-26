@@ -12,7 +12,7 @@ const path = require("path");
  * @param {string|string[]} [taskParams.fileContent] - The content to be written to the file (optional for empty files).
  * @returns {string} - The result of the command execution in Markdown format.
  */
-async function fileCmdHandler(taskName, taskParams) {
+async function fileCMDHandler(taskName, taskParams) {
     if (!taskParams?.fileName) {
         return `### Error\n\n- **Reason**: Missing \`fileName\` parameter.`;
     }
@@ -41,4 +41,4 @@ async function fileCmdHandler(taskName, taskParams) {
     }
 }
 
-module.exports = { fileCmdHandler };
+module.exports = { fileCMDHandler };
