@@ -1,25 +1,39 @@
-const {authorize} = require('../services/googleapi/auth.js');
-const {listConnectionNames} = require('../utils/contactsUtils.js');
-
+const { authorize } = require('../services/googleapi/auth.js');
+const { listConnectionNames } = require('../utils/contactsUtils.js');
 
 /**
- * A parser that handles the contacts commands.
- * Accepted tasks include:
- *  - `##[contacts-list]`: Lists the contacts in the user's Google account.
+ * Handles contact-related commands.
  * 
- * @param {string} task - The task to be executed.
+ * Accepted tasks:
+ * - `contacts-list`: Lists the contacts in the user's Google account.
+ * 
+ * @param {string} taskName - The command to execute (e.g., "contacts-list").
+ * @param {Object} taskParams - Additional parameters for the task (not used currently, but kept for extensibility).
  * @returns {string} - The result of the task.
  */
 async function contactsCmdHandler(taskName, taskParams) {
-    const client = await authorize();
-
     try {
-        const result = await listConnectionNames(client);
+        // Authorize the client
+        const client = await authorize();
+
+        // Fetch contacts
+        const contacts = await listConnectionNames(client);
+
+        if (!contacts || contacts.length === 0) {
+            return "No contacts found in your Google account.";
+        }
+
+        // Format the contacts list
+        const result = [
+            "Your Google Contacts:",
+            ...contacts.map((contact, index) => `${index + 1}. ${contact}`),
+        ].join("\n");
+
         return result;
     } catch (error) {
+        console.error(`Error in contactsCmdHandler for command "${taskName}":`, error);
         return `Failed to list contacts: ${error.message}`;
     }
-
 }
 
 module.exports = {

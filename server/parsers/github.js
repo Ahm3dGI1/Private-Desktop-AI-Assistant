@@ -1,30 +1,33 @@
 const { createGithubRepo, listGithubRepos } = require('../utils/githubUtils.js');
 
 /**
- * Handle the GitHub command.
+ * Handles GitHub-related commands.
  * 
- * @param {List} task Task object containing the command and parameters.
+ * @param {string} taskName - The command to be executed (e.g., "github-create-repo", "github-list-repos").
+ * @param {Object} taskParams - Parameters for the GitHub command.
+ * @param {string} [taskParams.repoName] - The name of the repository to create (required for "github-create-repo").
+ * @param {boolean} [taskParams.isPrivate] - Whether the repository is private (required for "github-create-repo").
+ * @returns {string} - The result of the command execution.
  */
-async function githubCMDHandler(taskName, taskParams){
-    let result = "";
+async function githubCMDHandler(taskName, taskParams) {
+    try {
+        switch (taskName) {
+            case "github-create-repo":
+                if (!taskParams?.repoName) {
+                    return `Error: "repoName" parameter is required for the "github-create-repo" command.`;
+                }
 
-    // Handle Github create repo command
-    if (taskName === "github-create-repo") {
-        
-        const repoName = taskParams.repoName;
-        const isPrivate = taskParams.isPrivate;
+                // Create GitHub repository
+                return await createGithubRepo(taskParams.repoName, taskParams.isPrivate);
 
-        result = await createGithubRepo(repoName, isPrivate);
+            case "github-list-repos":
+                // List GitHub repositories
+                return await listGithubRepos();
+        }
+    } catch (error) {
+        console.error(`Error handling GitHub command: ${taskName}`, error);
+        return `Failed to execute GitHub command "${taskName}": ${error.message}`;
     }
-
-    // Handle Github list repos command
-    if (taskName === "github-list-repos") {
-        result = "List of repos";
-        result += await listGithubRepos();
-    }
-    
-    return result;
-};
+}
 
 module.exports = { githubCMDHandler };
-

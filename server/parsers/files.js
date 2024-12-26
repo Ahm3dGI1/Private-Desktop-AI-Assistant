@@ -4,33 +4,40 @@ const path = require("path");
 /**
  * Handles different file commands.
  * Accepted commands include:
- * - `##[file-create]`: Creates a file in the sandbox directory.
+ * - `[file-create]`: Creates or edits a file in the sandbox directory.
  * 
+ * @param {string} taskName - The command type (e.g., "file-create", "file-edit").
  * @param {Object} taskParams - The parameters for the file command.
  * @param {string} taskParams.fileName - The name of the file to be created or edited.
  * @param {string|string[]} taskParams.fileContent - The content to be written to the file.
  * @returns {string} - The result of the command execution.
  */
 async function fileCmdHandler(taskName, taskParams) {
-    const filePath = path.join(__dirname, "../../sandbox");
+    if (!taskParams?.fileName) {
+        return `Invalid file command: Missing fileName parameter.`;
+    }
 
+    const filePath = path.join(__dirname, "../../sandbox");
     const fileName = taskParams.fileName;
-    let fileContent = taskParams.fileContent;
-    
+    let fileContent = taskParams.fileContent || "";
+
     if (Array.isArray(fileContent)) {
-        fileContent = fileContent.join("\n"); // Convert array back to string with newline separators
+        fileContent = fileContent.join("\n"); // Convert array to string with newline separators
     }
 
     try {
         const fullFilePath = path.join(filePath, fileName);
         // Ensure the directory exists
         await fs.mkdir(filePath, { recursive: true });
+
         // Write content to the file
         await fs.writeFile(fullFilePath, fileContent);
 
-        return `File "${fileName}" ${fileContent ? "edited" : "created"} successfully.`;
+        const operation = taskName === "file-create" ? "created" : "edited";
+        return `File "${fileName}" ${operation} successfully.`;
     } catch (error) {
-        return `Failed to handle file operation: ${error.message}`;
+        console.error(`Error handling file command: ${taskName}`, error);
+        return `Failed to handle file operation for "${fileName}": ${error.message}`;
     }
 }
 
