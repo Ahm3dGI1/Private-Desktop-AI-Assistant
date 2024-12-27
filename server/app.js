@@ -28,6 +28,8 @@ app.post('/api/ollama', async (req, res) => {
         // Generate AI response
         const ollamaResponse = await ollamaService.generateCompletion(messages);
 
+        console.log('AI response:', ollamaResponse);
+
         // Handle tasks from AI response
         const taskResultText = await responseHandler(ollamaResponse.tasks);
 

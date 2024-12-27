@@ -8,18 +8,14 @@ const path = require("path");
  * 
  * @param {string} taskName - The command type (e.g., "file-create", "file-edit").
  * @param {Object} taskParams - The parameters for the file command.
- * @param {string} taskParams.fileName - The name of the file to be created or edited.
- * @param {string|string[]} [taskParams.fileContent] - The content to be written to the file (optional for empty files).
+ * @param {string} taskParams[fname] - The name of the file to be created or edited.
+ * @param {string|string[]} taskParams[content] - The content to be written to the file (optional for empty files).
  * @returns {string} - The result of the command execution in Markdown format.
  */
 async function fileCMDHandler(taskName, taskParams) {
-    if (!taskParams?.fileName) {
-        return `### Error\n\n- **Reason**: Missing \`fileName\` parameter.`;
-    }
-
     const filePath = path.join(__dirname, "../../sandbox");
-    const fileName = taskParams.fileName;
-    let fileContent = taskParams.fileContent || "";
+    const fileName = taskParams.fname || "untitled.txt";
+    let fileContent = taskParams.content || "";
 
     if (Array.isArray(fileContent)) {
         fileContent = fileContent.join("\n"); // Convert array to string with newline separators

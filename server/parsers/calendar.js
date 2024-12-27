@@ -37,19 +37,21 @@ async function calendarCMDHandler(taskName, taskParams) {
         // Handle adding an event
         else if (taskName === "calendar-add") {
             // Validate required parameters
-            const { title, startTime, endTime } = taskParams;
-            if (!title || !startTime || !endTime) {
-                return "### Error\n\n- Missing required parameters for adding an event. Ensure `title`, `startTime`, and `endTime` are provided.";
+            const eventTitle = taskParams.title;
+            const eventStartTime = taskParams.startTime;
+            const eventEndTime = taskParams.endTime;
+            if (!eventTitle || !startTime || !endTime) {
+                return "### Error\n\n- Missing required parameters for adding an event. Ensure `eventTitle`, `eventStartTime`, and `eventEndTime` are provided.";
             }
 
             const eventDetails = {
-                title,
-                startTime,
-                endTime,
+                eventTitle,
+                eventStartTime,
+                eventEndTime,
             };
 
             await addEvent(client, eventDetails);
-            result = `### Event Added Successfully\n\n- Event **"${title}"** has been added to your calendar.`;
+            result = `### Event Added Successfully\n\n- Event **"${eventTitle}"** has been added to your calendar.`;
         }
 
         return result;

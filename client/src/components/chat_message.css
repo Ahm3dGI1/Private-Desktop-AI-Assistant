@@ -27,8 +27,10 @@
 }
 
 .chat-message.system{
-    background-color: var(--secondary-color);
+    color:rgb(114, 114, 114);
     text-align: center;
     max-width: 100%;
+    width: auto;
+    box-shadow: none;
 
 }

@@ -25,6 +25,7 @@ async function responseHandler(tasksList) {
     const taskHandlers = {
         "file-edit": fileCMDHandler,
         "file-create": fileCMDHandler,
+        "file-append": fileCMDHandler,
         "calendar-list": calendarCMDHandler,
         "calendar-add": calendarCMDHandler,
         "gmail-list": gmailCMDHandler,
@@ -50,7 +51,7 @@ async function responseHandler(tasksList) {
 
         try {
             console.log(`Executing task: ${taskName} with parameters:`, taskParams);
-            const result = await taskHandler(taskParams);
+            const result = await taskHandler(taskName, taskParams);
             taskResultText += result ? `${result}\n` : `Task ${taskName} completed.\n`;
         } catch (error) {
             console.error(`Error executing task: ${taskName}`, error);

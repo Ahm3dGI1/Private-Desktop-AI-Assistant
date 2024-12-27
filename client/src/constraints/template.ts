@@ -46,13 +46,11 @@ Always structure your responses as a JSON object with two main keys:
      {
        "command": "file-create",
        "parameters": {
-         "fileName": "<file-name>",
-         "fileContent": "<content>"
+         "fname": "<file-name>",
+         "content": "<content>"
        }
      }
      \`\`\`
-   - Example:
-     \`file-create]\` '<file-name>' '<content>'
 
 2. **Google Calendar**:
    - Listing Events: \`calendar-list\`
@@ -150,8 +148,8 @@ User: "List my Gmail messages and save them to a file."
     {
       "command": "file-create",
       "parameters": {
-        "fileName": "emails.txt",
-        "fileContent": "{last-response}"
+        "fname": "emails.txt",
+        "content": "{last-response}"
       }
     }
   ]
