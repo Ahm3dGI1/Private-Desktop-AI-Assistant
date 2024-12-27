@@ -19,7 +19,7 @@ const { newsCMDHandler } = require("./news.js");
  */
 async function responseHandler(tasksList) {
     if (!tasksList || tasksList.length === 0) {
-        return "No tasks to execute.";
+        return "";
     }
 
     const taskHandlers = {

@@ -45,12 +45,16 @@ function App() {
       });
 
       const aiResponse = response.data.aiResponse;
+      const systemResponse = response.data.systemResponse;
 
       aiMessage.content = aiResponse;
 
-      setMessages([...newMessages]);
-
-      console.log(aiMessage.content);
+      if (systemResponse.trim()) {
+        const systemMessage = { role: "system", content: systemResponse };
+        setMessages([...newMessages, systemMessage]);
+      } else {
+        setMessages([...newMessages]);
+      }
 
     } catch (error) {
       console.error('Error:', error);
