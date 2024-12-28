@@ -77,8 +77,6 @@ async function authorize() {
   return client;
 }
 
-authorize().catch(console.error);
-
 module.exports = {
   authorize,
 };

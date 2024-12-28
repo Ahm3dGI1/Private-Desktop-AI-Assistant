@@ -32,5 +32,8 @@
     max-width: 100%;
     width: auto;
     box-shadow: none;
+}
 
+.chat-message a {
+    color: var(--tertiary-color);
 }
