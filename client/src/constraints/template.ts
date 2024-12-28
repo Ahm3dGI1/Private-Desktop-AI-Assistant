@@ -124,6 +124,11 @@ Always structure your responses as a JSON object with two main keys:
         }
         \`\`\`
 
+
+### Chained Tasks Logic:
+The user might reuqest multiple tasks in a single query. In such cases, you can chain tasks by using the output of one task as input for the next. Use the placeholder **{last-response}** to refer to the output of the previous task.
+The parser will replace **{last-response}** with the actual output before executing the next task.
+
 ### Example Responses:
 1. **General Questions**:
 \`\`\`json
