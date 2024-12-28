@@ -50,6 +50,12 @@ async function responseHandler(tasksList) {
         }
 
         try {
+            for (const key in taskParams) {
+                if (taskParams[key] === "{last-response}") {
+                    taskParams[key] = taskResultText;
+                }
+            }
+            
             console.log(`Executing task: ${taskName} with parameters:`, taskParams);
             const result = await taskHandler(taskName, taskParams);
             taskResultText += result ? `${result}\n` : `Task ${taskName} completed.\n`;
@@ -61,6 +67,11 @@ async function responseHandler(tasksList) {
 
     return taskResultText.trim();
 }
+
+responseHandler([
+    { command: 'gmail-messages', parameters: { messagesNo: 10 } },
+    { command: 'file-create', parameters: { fname: 'emails.txt', content: '{last-response}' } }
+  ])
 
 module.exports = {
     responseHandler,
