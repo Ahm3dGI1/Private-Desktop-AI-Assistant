@@ -162,14 +162,17 @@ Powered by Ollama's API, the assistant can adapt to user-specific needs, with fu
 
 ## 📅 Future Plans
 
+- **Sequential Functions**:
+Improve how the model deals with chained tasks (allow it to see the result of each task and, according to it, define the input for the next task)
+
 - **Enhanced Voice Interaction**:
-Add real-time speech-to-text and text-to-speech capabilities for seamless interaction.
+Improve the quality of Speach-To-Text and Text-To-Speach.
 
 - **Electron Integration**:
 Package Catalyst as a cross-platform desktop application.
 
-- **Custom Workflows**:
-Allow users to define their own workflows using task chaining.
+- **More Models**:
+Add support for other models like GPT3.5 and 4.
 
 - **Extended API Support**:
 Add support for more services like Dropbox, Slack, and Trello.
