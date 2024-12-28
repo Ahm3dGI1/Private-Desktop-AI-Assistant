@@ -41,7 +41,7 @@ Can you create a python file with the code for a simple Tic Tac Toe game
 
 **Result**:
 
-![ex 1](<assets\Screenshot 2024-12-29 003603.png>)
+![Screenshot 2024-12-29 003603](https://github.com/user-attachments/assets/990d348f-c84f-4d87-b174-ffa6a45779b5)
 
 ### Example 2: Fetching Emails and adding them to a file (Chained Tasks)
 **Input**:
@@ -51,7 +51,7 @@ List my last 10 emails and add them to a file named emails.txt
 
 **Result**:
 
-![ex 2](<assets\Screenshot 2024-12-29 003052.png>)
+![Screenshot 2024-12-29 003052](https://github.com/user-attachments/assets/4f73dc3c-d34e-4d85-be31-4fb2ae3e8a90)
 
 ---
 
