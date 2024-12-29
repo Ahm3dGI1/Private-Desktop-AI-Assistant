@@ -41,7 +41,7 @@ Can you create a python file with the code for a simple Tic Tac Toe game
 
 **Result**:
 
-![ex 1](<assets\Screenshot 2024-12-29 003603.png>)
+![Screenshot 2024-12-29 003603](https://github.com/user-attachments/assets/990d348f-c84f-4d87-b174-ffa6a45779b5)
 
 ### Example 2: Fetching Emails and adding them to a file (Chained Tasks)
 **Input**:
@@ -51,7 +51,7 @@ List my last 10 emails and add them to a file named emails.txt
 
 **Result**:
 
-![ex 2](<assets\Screenshot 2024-12-29 003052.png>)
+![Screenshot 2024-12-29 003052](https://github.com/user-attachments/assets/4f73dc3c-d34e-4d85-be31-4fb2ae3e8a90)
 
 ---
 
@@ -115,6 +115,7 @@ Catalyst combines cutting-edge AI models with carefully designed task parsers to
     Create a `.env` file in the root directories for `server` and `python_microservice`. Include keys like:
     ```env
     GOOGLE_API_CREDENTIALS_PATH=path/to/credentials.json
+    GOOGLE_API_TOKEN_PATH= "path/to/token.json"
     GITHUB_TOKEN=your_github_token
     NEWS_API_KEY=your_news_api_key
     ```
@@ -162,14 +163,17 @@ Powered by Ollama's API, the assistant can adapt to user-specific needs, with fu
 
 ## 📅 Future Plans
 
+- **Sequential Functions**:
+Improve how the model deals with chained tasks (allow it to see the result of each task and, according to it, define the input for the next task)
+
 - **Enhanced Voice Interaction**:
-Add real-time speech-to-text and text-to-speech capabilities for seamless interaction.
+Improve the quality of Speach-To-Text and Text-To-Speach.
 
 - **Electron Integration**:
 Package Catalyst as a cross-platform desktop application.
 
-- **Custom Workflows**:
-Allow users to define their own workflows using task chaining.
+- **More Models**:
+Add support for other models like GPT3.5 and 4.
 
 - **Extended API Support**:
 Add support for more services like Dropbox, Slack, and Trello.
