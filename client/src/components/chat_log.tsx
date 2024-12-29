@@ -9,7 +9,6 @@ interface ChatLogProps {
 }
 
 const ChatLog: React.FC<ChatLogProps> = ({ messages }) => {
-
     const chatLogRef = useRef<HTMLDivElement | null>(null);
 
     // Automatically scroll to the bottom when messages change
@@ -21,7 +20,7 @@ const ChatLog: React.FC<ChatLogProps> = ({ messages }) => {
 
     return (
         <>
-            <div className="chat-log">
+            <div className="chat-log" ref={chatLogRef}>
                 {messages.map((message, index) => (
                     <ChatMessage
                         key={index}
@@ -32,6 +31,6 @@ const ChatLog: React.FC<ChatLogProps> = ({ messages }) => {
             </div>
         </>
     );
-}
+};
 
 export default ChatLog;

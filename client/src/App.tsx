@@ -9,8 +9,6 @@ import ChatLog from './components/chat_log';
 import { AI_MODEL_TEMPLATE } from './constraints/template';
 
 
-// For sequential function calling, repromt the AI with the whole message chain while highlighting The global Task, The task Queue, and the last task response.
-
 // Define the system message to set the behavior of the AI
 const SYSTEM_TEMPLATE = {
   role: "system",
