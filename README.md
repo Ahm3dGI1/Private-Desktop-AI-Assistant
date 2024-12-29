@@ -115,6 +115,7 @@ Catalyst combines cutting-edge AI models with carefully designed task parsers to
     Create a `.env` file in the root directories for `server` and `python_microservice`. Include keys like:
     ```env
     GOOGLE_API_CREDENTIALS_PATH=path/to/credentials.json
+    GOOGLE_API_TOKEN_PATH= "path/to/token.json"
     GITHUB_TOKEN=your_github_token
     NEWS_API_KEY=your_news_api_key
     ```
