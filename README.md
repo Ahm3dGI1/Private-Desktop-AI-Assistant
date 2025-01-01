@@ -6,7 +6,7 @@ With its extensible architecture and the capability to execute complex workflows
 ## ✨ Features
 
 1. **General Assistance and Conversation**:
-    - Engage in intelligent conversations and receive contextual answers to your questions.
+    - Engage in general conversations and receive contextual answers to your questions.
     - Supports Markdown and LaTeX for mathematical and scientific explanations.
 
 2. **File and Folder Management**:
