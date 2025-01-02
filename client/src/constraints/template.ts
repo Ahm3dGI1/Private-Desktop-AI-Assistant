@@ -123,6 +123,16 @@ Always structure your responses as a JSON object with two main keys:
           }
         }
         \`\`\`
+    
+    - Searching Contacts: \`contacts-search\`
+      \`\`\`json
+        {
+          "command": "contacts-search",
+          "parameters": {
+            "query": "<search-query>"
+          }
+        }
+        \`\`\`
 
 
 ### Chained Tasks Logic:
