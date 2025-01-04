@@ -1,38 +1,46 @@
 const { createGithubRepo, listGithubRepos } = require('../utils/githubUtils.js');
 
 /**
- * Handles GitHub-related commands.
+ * Creates a new GitHub repository.
  * 
- * @param {string} taskName - The command to be executed (e.g., "github-create-repo", "github-list-repos").
- * @param {Object} taskParams - Parameters for the GitHub command.
- * @param {string} [taskParams.repoName] - The name of the repository to create (required for "github-create-repo").
- * @param {boolean} [taskParams.isPrivate] - Whether the repository is private (required for "github-create-repo").
- * @returns {string} - The result of the command execution.
+ * @param {Object} taskParams - The parameters for creating a repository.
+ * @param {string} taskParams.repoName - The name of the repository to be created.
+ * @param {boolean} taskParams.isPrivate - The privacy status of the repository (true for private, false for public).
+ * @returns {string} - The result of the command execution in Markdown format.
  */
-async function githubCMDHandler(taskName, taskParams) {
+async function githubRepoCreate(taskParams) {
     try {
-        switch (taskName) {
-            case "github-create-repo":
-                if (!taskParams?.repoName) {
-                    return `### Error\n\n- **Reason**: "repoName" parameter is required for the "github-create-repo" command.`;
-                }
-
-                // Create GitHub repository
-                const createResult = await createGithubRepo(taskParams.repoName, taskParams.isPrivate);
-                return `### Repository Creation Result\n\n${createResult}`;
-
-            case "github-list-repos":
-                // List GitHub repositories
-                const listResult = await listGithubRepos();
-                return `### GitHub Repositories\n\n${listResult}`;
-
-            default:
-                return `### Error\n\n- **Reason**: Command "${taskName}" is not recognized.`;
+        if (!taskParams?.repoName) {
+            return `### Error\n\n- **Reason**: "repoName" parameter is required for the "github-create-repo" command.`;
         }
+
+        // Create GitHub repository
+        const createResult = await createGithubRepo(taskParams.repoName, taskParams.isPrivate);
+        return `### Repository Creation Result\n\n${createResult}`;
     } catch (error) {
-        console.error(`Error handling GitHub command: ${taskName}`, error);
-        return `### Error\n\n- **Command**: ${taskName}\n- **Message**: ${error.message}`;
+        console.error(`Error creating GitHub repository:`, error);
+        return `### Error\n\n- **Message**: ${error.message}`;
     }
 }
 
-module.exports = { githubCMDHandler };
+/**
+ * Lists the user's GitHub repositories.
+ * 
+ * @param {Object} taskParams - The parameters for listing repositories.
+ * @returns {string} - The list of repositories in Markdown format.
+ */
+async function githubRepoList(taskParams = None) {
+    try {
+        // List GitHub repositories
+        const listResult = await listGithubRepos();
+        return `### GitHub Repositories\n\n${listResult}`;
+    } catch (error) {
+        console.error(`Error listing GitHub repositories:`, error);
+        return `### Error\n\n- **Message**: ${error.message}`;
+    }
+}
+
+module.exports = { 
+    githubRepoCreate,
+    githubRepoList,
+ };
