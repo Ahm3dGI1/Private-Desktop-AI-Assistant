@@ -1,0 +1,5 @@
+.side-bar{
+    width: 18%;
+    height: 100vh;
+    background-color: var(--secondary-color);
+}

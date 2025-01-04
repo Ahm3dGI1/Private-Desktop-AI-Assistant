@@ -5,6 +5,7 @@ import './App.css';
 
 import InputBar from './components/input_bar';
 import ChatLog from './components/chat_log';
+import SideBar from './components/side_bar';
 
 import { AI_MODEL_TEMPLATE } from './constraints/template';
 
@@ -20,6 +21,8 @@ function App() {
   const [prompt, setPrompt] = useState<string>('');
   const [messages, setMessages] = useState([SYSTEM_TEMPLATE]);
   const [triggerInput, setTriggerInput] = useState(false);
+  const [selectedModel, setSelectedModel] = useState<string>("ollama");
+
 
   /**
    * handleInput - Manages user input, communicates with the server to get AI responses, 
@@ -40,6 +43,7 @@ function App() {
       // Send the messages to the server and get the AI response
       const response = await axios.post('http://localhost:5000/api/model', {
         messages: newMessages,
+        model: selectedModel
       });
 
       const aiResponse = response.data.aiResponse;
@@ -81,10 +85,22 @@ function App() {
     }
   }, [triggerInput]);
 
+  const handleModelChange = (model: string) => {
+    setSelectedModel(model);
+    console.log(`Model changed to: ${model}`);
+    // Additional logic to switch between models can be added here
+  };
+
+
   return (
     <div className="App">
-      <ChatLog messages={messages.slice(1)} />
-      <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={setTriggerInput} takeVoice={callPythonStt} />
+      <div className="main-container">
+        <SideBar setModel={handleModelChange} />
+        <div className="chat-container">
+          <ChatLog messages={messages.slice(1)} />
+          <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={setTriggerInput} takeVoice={callPythonStt} />
+        </div>
+      </div>
     </div>
   );
 }

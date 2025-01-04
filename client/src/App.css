@@ -12,3 +12,13 @@ body {
   background-color: var(--primary-color);
   color: white;
 }
+
+.main-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chat-container {
+  width: 75%;
+}
