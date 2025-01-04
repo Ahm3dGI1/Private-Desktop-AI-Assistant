@@ -79,6 +79,7 @@ Catalyst combines cutting-edge AI models with carefully designed task parsers to
 
 - **Node.js** for backend and frontend
 - **Python 3.x** for the text-to-speech service
+- **Ollama** for the models (install it using WSL of you're on windows and install the model used in the `ollama.js` file)
 - **Google API credentials** for Gmail, Calendar, and Contacts
 - **GitHub token** for repository management
 - **News API key** for fetching news headlines
