@@ -30,10 +30,15 @@ async function contactsList(taskParams = None) {
  * @returns {string} - Formatted contact list.
  */
 function formatContactList(contacts) {
-    return [
+    try {
+        return [
         "### Your Google Contacts",
         ...contacts.map((contact, index) => `- **${index + 1}.** ${contact}`),
-    ].join("\n");
+        ].join("\n");
+    } catch (error) {
+        console.error(`Error formatting contact list:`, error);
+        return `### Error\n\n- **Message**: ${error.message}`;
+    }
 }
 
 /**
@@ -44,31 +49,35 @@ function formatContactList(contacts) {
  * @returns {string} - Search results in Markdown format.
  */
 async function searchContacts(taskParams) {
-
-    // Authorize the client
-    const client = await authorize();
-
-    // Fetch contacts
-    const contacts = await listConnectionNames(client);
-
-    const query = taskParams.query;
-
-    if (!query.trim()) {
-        return `### Error\n\n- Search query cannot be empty.`;
+    try{
+        // Authorize the client
+        const client = await authorize();
+    
+        // Fetch contacts
+        const contacts = await listConnectionNames(client);
+    
+        const query = taskParams.query;
+    
+        if (!query.trim()) {
+            return `### Error\n\n- Search query cannot be empty.`;
+        }
+    
+        const matchingContacts = contacts.filter(contact =>
+            contact.toLowerCase().includes(query.toLowerCase())
+        );
+    
+        if (matchingContacts.length > 0) {
+            return [
+                `### Search Results for "${query}"`,
+                ...matchingContacts.map((contact, index) => `- **${index + 1}.** ${contact}`),
+            ].join("\n");
+        }
+    
+        return `### Contact Not Found\n\n- No contacts found matching **"${query}"**.`;
+    } catch(error){
+        console.error(`Error searching contacts:`, error);
+        return `### Error\n\n- **Message**: ${error.message}`;
     }
-
-    const matchingContacts = contacts.filter(contact =>
-        contact.toLowerCase().includes(query.toLowerCase())
-    );
-
-    if (matchingContacts.length > 0) {
-        return [
-            `### Search Results for "${query}"`,
-            ...matchingContacts.map((contact, index) => `- **${index + 1}.** ${contact}`),
-        ].join("\n");
-    }
-
-    return `### Contact Not Found\n\n- No contacts found matching **"${query}"**.`;
 }
 
 module.exports = {
