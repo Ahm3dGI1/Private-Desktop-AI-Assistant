@@ -1,41 +1,26 @@
 const { authorize } = require('../services/googleapi/auth.js');
 const { listConnectionNames } = require('../utils/contactsUtils.js');
 
+
 /**
- * Handles contact-related commands.
+ * Lists the user's Google contacts.
  * 
- * Accepted tasks:
- * - `contacts-list`: Lists the contacts in the user's Google account.
- * - `contacts-search`: Searches for a specific contact by name.
- * 
- * @param {string} taskName - The command to execute (e.g., "contacts-list", "contacts-search").
- * @param {Object} taskParams - Parameters for the task (used for `contacts-search`).
- * @returns {string} - The result of the task in Markdown format.
+ * @param {Object} taskParams - The parameters for listing contacts.
+ * @returns {string} - The list of contacts in Markdown format.
  */
-async function contactsCMDHandler(taskName, taskParams) {
-    try {
-        // Authorize the client
-        const client = await authorize();
+async function contactsList(taskParams = None) {
+    // Authorize the client
+    const client = await authorize();
 
-        // Fetch contacts
-        const contacts = await listConnectionNames(client);
+    // Fetch contacts
+    const contacts = await listConnectionNames(client);
 
-        if (!contacts || contacts.length === 0) {
-            return `### Contacts\n\n- No contacts found in your Google account.`;
-        }
-
-        // Handle the specific task
-        if (taskName === "contacts-list") {
-            return formatContactList(contacts);
-        } else if (taskName === "contacts-search") {
-            return searchContacts(contacts, taskParams?.query || "");
-        } else {
-            return `### Error\n\n- Unknown command: **${taskName}**.`;
-        }
-    } catch (error) {
-        console.error(`Error in contactsCMDHandler for command "${taskName}":`, error);
-        return `### Error\n\n- Failed to execute command "${taskName}": ${error.message}`;
+    if (!contacts || contacts.length === 0) {
+        return `### Contacts\n\n- No contacts found in your Google account.`;
     }
+
+    // Handle the specific task
+    return formatContactList(contacts);
 }
 
 /**
@@ -58,7 +43,16 @@ function formatContactList(contacts) {
  * @param {string} query - The search query.
  * @returns {string} - Search results in Markdown format.
  */
-function searchContacts(contacts, query) {
+async function searchContacts(taskParams) {
+
+    // Authorize the client
+    const client = await authorize();
+
+    // Fetch contacts
+    const contacts = await listConnectionNames(client);
+
+    const query = taskParams.query;
+
     if (!query.trim()) {
         return `### Error\n\n- Search query cannot be empty.`;
     }
@@ -78,5 +72,6 @@ function searchContacts(contacts, query) {
 }
 
 module.exports = {
-    contactsCMDHandler,
+    contactsList,
+    searchContacts,
 };
