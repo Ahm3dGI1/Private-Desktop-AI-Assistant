@@ -38,7 +38,7 @@ function App() {
       setMessages(newMessages);
 
       // Send the messages to the server and get the AI response
-      const response = await axios.post('http://localhost:5000/api/ollama', {
+      const response = await axios.post('http://localhost:5000/api/model', {
         messages: newMessages,
       });
 

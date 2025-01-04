@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const ollamaService = require('./services/ollama.js');
-const { responseHandler } = require("./parsers/responseHandler.js");
+const openaiService = require('./services/openAi.js');
 const { callPythonTTS } = require("./services/pythonMicroservice.js");
 
 const app = express();
@@ -17,27 +17,39 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /**
  * Route to handle AI message processing
  */
-app.post('/api/ollama', async (req, res) => {
+app.post('/api/model', async (req, res) => {
     try {
-        const { messages } = req.body;
+        const { messages, model } = req.body;
         
         if (!messages || !Array.isArray(messages)) {
             return res.status(400).json({ error: 'Invalid messages format. It must be an array.' });
         }
 
-        // Generate AI response
-        const ollamaResponse = await ollamaService.generateCompletion(messages);
+        if (!model) {
+            return res.status(400).json({ error: 'Model not provided.' });
+        }
 
-        console.log('AI response:', ollamaResponse);
+        let aiResponse;
+        let systemResponse = "";
 
-        // Handle tasks from AI response
-        const taskResultText = await responseHandler(ollamaResponse.tasks);
+        // Call the appropriate service based on the model
+        switch (model.toLowerCase()) {
+            case 'ollama':
+                aiResponse, systemResponse = await ollamaService.generateCompletion(messages);
+                break;
+
+            case 'openai':
+                aiResponse = await openaiService.getOpenAiResponse(messages);
+                break;
+
+            default:
+                return res.status(400).json({ error: `Unsupported model: ${model}` });
+        }
+
+        console.log('AI response:', aiResponse);
 
         // Send text to Python TTS service
-        callPythonTTS(`${ollamaResponse.message}\n${taskResultText}`);
-
-        const aiResponse = ollamaResponse.message;
-        const systemResponse = taskResultText;
+        callPythonTTS(`${aiResponse}\n${systemResponse}`);
 
         // Return AI and system responses
         return res.json({ aiResponse, systemResponse });
