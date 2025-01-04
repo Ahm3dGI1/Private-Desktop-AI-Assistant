@@ -68,11 +68,6 @@ async function responseHandler(tasksList) {
     return taskResultText.trim();
 }
 
-responseHandler([
-    { command: 'gmail-messages', parameters: { messagesNo: 10 } },
-    { command: 'file-create', parameters: { fname: 'emails.txt', content: '{last-response}' } }
-  ])
-
 module.exports = {
     responseHandler,
 };
