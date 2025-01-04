@@ -27,5 +27,5 @@ exports.generateCompletion = async (messages) => {
     const taskResultText = await responseHandler(jsonResponse.tasks);
 
     // Return the AI response and task result text
-    return { message: jsonResponse.text, taskResultText };
+    return { aimessage: jsonResponse.message, systemMessage : taskResultText };
 };

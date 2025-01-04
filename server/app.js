@@ -35,7 +35,9 @@ app.post('/api/model', async (req, res) => {
         // Call the appropriate service based on the model
         switch (model.toLowerCase()) {
             case 'ollama':
-                aiResponse, systemResponse = await ollamaService.generateCompletion(messages);
+                const ollamaResponse = await ollamaService.generateCompletion(messages);
+                aiResponse = ollamaResponse.aimessage;
+                systemResponse = ollamaResponse.systemMessage;
                 break;
 
             case 'openai':

@@ -10,7 +10,7 @@ const openai = new OpenAI({
 async function getOpenAiResponse(messages) {
     try{
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "gpt-3.5-turbo",
             store: true,
             messages: messages,
         });
