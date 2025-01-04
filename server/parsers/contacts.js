@@ -82,5 +82,5 @@ async function contactsSearch(taskParams) {
 
 module.exports = {
     contactsList,
-    searchContacts,
+    contactsSearch,
 };
