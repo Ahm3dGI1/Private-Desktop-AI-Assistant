@@ -48,7 +48,7 @@ function formatContactList(contacts) {
  * @param {string} query - The search query.
  * @returns {string} - Search results in Markdown format.
  */
-async function searchContacts(taskParams) {
+async function contactsSearch(taskParams) {
     try{
         // Authorize the client
         const client = await authorize();
