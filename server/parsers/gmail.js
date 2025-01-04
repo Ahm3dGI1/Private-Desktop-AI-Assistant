@@ -1,55 +1,54 @@
-const { listLabels, listMessages, sendMessage } = require('../utils/gmailUtils.js');
+const { listMessages, sendMessage } = require('../utils/gmailUtils.js');
 const { authorize } = require('../services/googleapi/auth.js');
 
+
 /**
- * Handles Gmail-related commands with Markdown formatting.
+ * Lists the last emails from the user's Gmail account.
  * 
- * @param {string} taskName - The Gmail command to execute (e.g., "gmail-list", "gmail-messages", "gmail-send").
- * @param {Object} taskParams - The parameters for the Gmail command.
- * @param {number} [taskParams.messagesNo] - Number of messages to retrieve (required for "gmail-messages").
- * @param {string} [taskParams.recipient] - Recipient email address (required for "gmail-send").
- * @param {string} [taskParams.subject] - Email subject (required for "gmail-send").
- * @param {string} [taskParams.message] - Email body (required for "gmail-send").
- * @returns {string} - The result of the Gmail command execution in Markdown format.
+ * @param {Object} taskParams - The parameters for the task.
+ * @param {number} taskParams.messagesNo - The number of messages to list.
+ * @returns {string} - The list of the last emails.
  */
-async function gmailCMDHandler (taskName, taskParams){
+async function gmailListEmails(taskParams){
     try {
-        // Authorize the client
         const client = await authorize();
-        let result = "";
-
-        switch (taskName) {
-            case "gmail-list":
-                const labels = await listLabels(client);
-                result = `### Gmail Labels:\n\n${labels.map(label => `- **${label}**`).join("\n")}`;
-                break;
-
-            case "gmail-messages":
-                const messages = await listMessages(client, taskParams.messagesNo);
-                result = `### Last ${taskParams.messagesNo} Gmail Messages:\n\n${messages}`;
-                break;
-
-            case "gmail-send":
-                const { recipient, subject, message } = taskParams;
-                if (!recipient || !subject || !message) {
-                    return 'Error: "recipient", "subject", and "message" parameters are required for the "gmail-send" command.';
-                }
-                const emailDetails = {
-                    from: "ahmedgouda797@gmail.com",
-                    to: recipient,
-                    subject,
-                    message,
-                };
-                result = await sendMessage(client, emailDetails);
-                result = `### Email Sent Successfully:\n\n- **Recipient**: ${recipient}\n- **Subject**: ${subject}\n- **Message**: ${message}`;
-                break;
-        }
-
-        return result;
+        const messages = await listMessages(client, taskParams.messagesNo);
+        return `### Last ${taskParams.messagesNo} Gmail Messages:\n\n${messages}`;
     } catch (error) {
-        console.error(`Error handling Gmail command: ${taskName}`, error);
-        return `### An error occurred:\n\n- **Command**: ${taskName}\n- **Error**: ${error.message}`;
+        console.error(`Error listing Gmail messages`, error);
+        return `### An error occurred:\n\n- **Error**: ${error.message}`;
     }
-};
+}
 
-module.exports = { gmailCMDHandler };
+/**
+ * Sends an email to a recipient.
+ * 
+ * @param {Object} taskParams - The parameters for the task.
+ * @param {string} taskParams.recipient - The email address of the recipient.
+ * @param {string} taskParams.subject - The subject of the email.
+ * @param {string} taskParams.message - The message body of the email.
+ * @returns {string} - The status of the email sending operation.
+ */
+async function gmailSendEmail(taskParams){
+    try {
+        const client = await authorize();
+
+        const { recipient, subject, message } = taskParams;
+        if (!recipient || !subject || !message) {
+            return 'Error: "recipient", "subject", and "message" parameters are required for the "gmail-send" command.';
+        }
+        const emailDetails = {
+            from: "ahmedgouda797@gmail.com",
+            to: recipient,
+            subject,
+            message,
+        };
+        await sendMessage(client, emailDetails);
+        return `### Email Sent Successfully:\n\n- **Recipient**: ${recipient}\n- **Subject**: ${subject}\n- **Message**: ${message}`;
+    } catch (error) {
+        console.error(`Error sending Gmail message`, error);
+        return `### An error occurred:\n\n- **Error**: ${error.message}`;
+    }
+}
+
+module.exports = { gmailListEmails, gmailSendEmail };
