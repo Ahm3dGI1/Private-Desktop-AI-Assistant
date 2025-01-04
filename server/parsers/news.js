@@ -6,13 +6,12 @@ const { getNews } = require('../utils/newsUtils');
  * Accepted commands:
  * - `news-list`: Fetches the top news headlines based on a query and/or category.
  * 
- * @param {string} taskName - The command to execute (e.g., "news-list").
  * @param {Object} taskParams - The parameters for the news command.
  * @param {string} [taskParams.query] - The search term for the news query (optional).
  * @param {string} [taskParams.category] - The category of news (e.g., "technology", "sports", etc., optional).
  * @returns {string} - The result of the command execution in Markdown format.
  */
-async function newsCMDHandler(taskName, taskParams) {
+async function newsListArticles(taskParams) {
     try {
         const { query = "general", category = "general" } = taskParams;
 
@@ -35,9 +34,9 @@ async function newsCMDHandler(taskName, taskParams) {
 
         return result;
     } catch (error) {
-        console.error(`Error in newsCMDHandler for command "${taskName}":`, error);
+        console.error(`Error in listing articles for command "${taskName}":`, error);
         return `### Error\n\n- Failed to fetch news: **${error.message}**.`;
     }
 }
 
-module.exports = { newsCMDHandler };
+module.exports = { newsListArticles };
