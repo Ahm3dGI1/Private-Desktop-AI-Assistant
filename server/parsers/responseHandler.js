@@ -1,9 +1,9 @@
-const { fileCMDHandler } = require("./files.js");
-const { calendarCMDHandler } = require("./calendar.js");
-const { gmailCMDHandler } = require("./gmail.js");
-const { contactsCMDHandler } = require("./contacts.js");
-const { githubCMDHandler } = require("./github.js");
-const { newsCMDHandler } = require("./news.js");
+const { fileManagement } = require("./files.js");
+const { calendarCreateEvents, calendarListEvents } = require("./calendar.js");
+const { gmailListEmails, gmailSendEmail } = require("./gmail.js");
+const { contactsList, contactsSearch } = require("./contacts.js");
+const { githubRepoCreate, githubRepoList } = require("./github.js");
+const { newsListArticles } = require("./news.js");
 
 /**
  * A parser that takes the AI response and handles the tasks accordingly.
@@ -23,18 +23,18 @@ async function responseHandler(tasksList) {
     }
 
     const taskHandlers = {
-        "file-edit": fileCMDHandler,
-        "file-create": fileCMDHandler,
-        "file-append": fileCMDHandler,
-        "calendar-list": calendarCMDHandler,
-        "calendar-add": calendarCMDHandler,
-        "gmail-list": gmailCMDHandler,
-        "gmail-messages": gmailCMDHandler,
-        "gmail-send": gmailCMDHandler,
-        "contacts-list": contactsCMDHandler,
-        "github-list-repos": githubCMDHandler,
-        "github-create-repo": githubCMDHandler,
-        "news-list": newsCMDHandler,
+        "file-edit": fileManagement,
+        "file-create": fileManagement,
+        "file-append": fileManagement,
+        "calendar-list": calendarListEvents,
+        "calendar-add": calendarCreateEvents,
+        "gmail-messages": gmailListEmails,
+        "gmail-send": gmailSendEmail,
+        "contacts-list": contactsList,
+        "contacts-search": contactsSearch,
+        "github-list-repos": githubRepoList,
+        "github-create-repo": githubRepoCreate,
+        "news-list": newsListArticles,
     };
 
     let taskResultText = "";
@@ -57,7 +57,7 @@ async function responseHandler(tasksList) {
             }
             
             console.log(`Executing task: ${taskName} with parameters:`, taskParams);
-            const result = await taskHandler(taskName, taskParams);
+            const result = await taskHandler(taskParams);
             taskResultText += result ? `${result}\n` : `Task ${taskName} completed.\n`;
         } catch (error) {
             console.error(`Error executing task: ${taskName}`, error);
