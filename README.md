@@ -1,4 +1,4 @@
-# Catalyst - AI Desktop Assistant
+# Catalyst - AI-Powered Desktop Assistant
 
 Catalyst is a dynamic AI-powered desktop assistant designed to help users with various tasks efficiently and intuitively. 
 With its extensible architecture and the capability to execute complex workflows, Catalyst is more than just a personal assistant—it's a powerful tool for managing your digital life.
