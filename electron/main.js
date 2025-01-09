@@ -16,8 +16,8 @@ function createWindow() {
   });
 
   const startUrl = isDev
-    ? 'http://localhost:3000' // React development server
-    : `file://${path.join(__dirname, '../public/index.html')}`; // React production build
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, '../client/build/index.html')}`;
 
   mainWindow.loadURL(startUrl);
 

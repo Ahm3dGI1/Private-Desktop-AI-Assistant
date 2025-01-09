@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
-    "electron-start": "app/react-scripts start && electron .",
-    "electron-dev": "app/react-scripts start && npx electronmon ."
+    "electron-start": "electron .",
+    "electron-dev": "npx electronmon ."
   },
   "keywords": [
     "electron",
