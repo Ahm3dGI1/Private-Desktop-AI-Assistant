@@ -1,10 +1,11 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const isDev = require('electron-is-dev');
 
 let mainWindow;
 
-function createWindow() {
+async function createWindow() {
+  const isDev = (await import('electron-is-dev')).default; // Dynamically import
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -14,6 +15,8 @@ function createWindow() {
       contextIsolation: true,
     },
   });
+
+  mainWindow.setMenuBarVisibility(false);
 
   const startUrl = isDev
     ? 'http://localhost:3000'
