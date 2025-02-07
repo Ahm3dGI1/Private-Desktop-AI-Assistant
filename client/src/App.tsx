@@ -20,6 +20,7 @@ const SYSTEM_TEMPLATE = {
 function App() {
   const [prompt, setPrompt] = useState<string>('');
   const [messages, setMessages] = useState([SYSTEM_TEMPLATE]);
+  const [currConversationId, setCurrConversationId] = useState<string>('');
   const [triggerInput, setTriggerInput] = useState(false);
   const [selectedModel, setSelectedModel] = useState<string>("ollama");
 
@@ -32,6 +33,12 @@ function App() {
     if (prompt.trim() === '') return; // Don't send empty messages
 
     try {
+      // If there is no conversation ID, create a new one
+      if (currConversationId === '') {
+        const response = await axios.post('http://localhost:5000/api/conversations/new');
+        setCurrConversationId(response.data.conversationId);
+      }
+
       const currPrompt = prompt;
       setPrompt('');
 
@@ -58,10 +65,31 @@ function App() {
         setMessages([...newMessages]);
       }
 
+      // Save the conversation to the database
+      if (currConversationId !== '') {
+        axios.post(`http://localhost:5000/api/conversations/save`, {
+          currConversationId,
+          messages: messages,
+        });
+      }
+
     } catch (error) {
       console.error('Error:', error);
     }
   };
+
+  // Fetch messages for the current conversation
+  useEffect(() => {
+    if (currConversationId !== '') {
+      axios.get(`http://localhost:5000/api/conversations/${currConversationId}`)
+        .then((response) => {
+          setMessages(response.data.messages);
+        })
+        .catch((error) => {
+          console.error('Error fetching messages:', error);
+        });
+    }
+  }, [currConversationId]);
 
 
   // Calls the Python speech-to-text service
@@ -95,7 +123,7 @@ function App() {
   return (
     <div className="App">
       <div className="main-container">
-        <SideBar setModel={handleModelChange} />
+        <SideBar setModel={handleModelChange} setCurrConversationId={setCurrConversationId} />
         <div className="chat-container">
           <ChatLog messages={messages.slice(1)} />
           <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={setTriggerInput} takeVoice={callPythonStt} />
