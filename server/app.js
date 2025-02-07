@@ -104,6 +104,43 @@ app.post("/api/conversations/save", async(req, res) => {
     }
 });
 
+app.post("/api/conversations/delete", async(req, res) => {
+    try{
+        const {conversationId} = req.body;
+        if (!conversationId) {
+            return res.status(400).json({ error: 'Invalid request. Conversation ID is required.' });
+        }
+
+        const conversations = await getStoredConversations();
+        delete conversations[conversationId];
+
+        await fs.writeFile(path.join(__dirname, 'data', 'conversations.json'), JSON.stringify(conversations, null, 2));
+        return res.json({ message: "Conversation deleted successfully." });
+
+    } catch (error) {
+        return res.status(500).json({ error: 'Failed to delete conversation.' });
+    }
+});
+
+app.post("/api/conversations/new", async(req, res) => {
+    const newId = `conv_${Date.now()}`;
+    res.json({ conversationId: newId });
+});
+
+/**
+ * Route to fetch a specific conversation
+ */
+app.get('/api/conversations/:conversationId', async (req, res) => {
+    const { conversationId } = req.params;
+    const conversations = await getStoredConversations();
+
+    if (!conversations[conversationId]) {
+        return res.status(404).json({ error: 'Conversation not found' });
+    }
+
+    res.json({ messages: conversations[conversationId] });
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
