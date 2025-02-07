@@ -67,7 +67,7 @@ app.post('/api/model', async (req, res) => {
 /** Conversations API */
 async function getStoredConversations() {
     try {
-        const data = fs.readFile(path.join(__dirname, 'data', 'conversations.json'), 'utf8');
+        const data = await fs.readFile(path.join(__dirname, 'data/conversations.json'), 'utf8');
         return JSON.parse(data);
     } catch (error) {
         console.error('No conversations stored:', error);
