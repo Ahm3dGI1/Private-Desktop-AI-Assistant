@@ -12,12 +12,15 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ setModel, setCurrConversationId }) => {
 
-    const [conversations, setConversations] = React.useState([]);
+    const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
         axios.get('http://localhost:5000/api/conversations')
             .then((response) => {
-                setConversations(response.data.conversations);
+                const responseConversations = response.data.conversations;
+                if (responseConversations) {
+                    setConversations(responseConversations);
+                }
             })
             .catch((error) => {
                 console.error('Error fetching conversations:', error);
