@@ -15,28 +15,24 @@ const SideBar: React.FC<SideBarProps> = ({ setModel, setCurrConversationId }) =>
     const [conversations, setConversations] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/conversations')
-            .then((response) => {
-                const responseConversations = response.data.conversations;
-                if (responseConversations) {
-                    setConversations(responseConversations);
-                }
-            })
-            .catch((error) => {
-                console.error('Error fetching conversations:', error);
-            });
+        const fetchConversations = async () => {
+            const response = await axios.get('http://localhost:5000/api/conversations');
+            setConversations(response.data);
+        };
+        fetchConversations();
     }, []);
-
-
 
     return (
         <div className='side-bar'>
             <ModelSelector setModel={setModel} />
             <div className="conversations-container">
-                <h2>Conversations</h2>
+                <div>Conversations</div>
                 <ul>
                     {Object.keys(conversations).map((convId) => (
-                        <li key={convId} onClick={() => setCurrConversationId(convId)}>
+                        <li key={convId} onClick={() => {
+                            setCurrConversationId(convId);
+                            console.log('Conversation ID:', convId);
+                        }}>
                             {convId}
                         </li>
                     ))}

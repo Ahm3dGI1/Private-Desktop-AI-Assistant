@@ -33,10 +33,15 @@ function App() {
     if (prompt.trim() === '') return; // Don't send empty messages
 
     try {
+      let conversationId = currConversationId;
+
       // If there is no conversation ID, create a new one
-      if (currConversationId === '') {
-        const response = await axios.post('http://localhost:5000/api/conversations/new');
-        setCurrConversationId(response.data.conversationId);
+      if (conversationId === '') {
+        const response = await axios.post('http://localhost:5000/api/conversations/new',
+          { messages: [SYSTEM_TEMPLATE] }
+        );
+        conversationId = response.data.conversationId;
+        setCurrConversationId(conversationId);
       }
 
       const currPrompt = prompt;
@@ -44,7 +49,7 @@ function App() {
 
       const userMessage = { role: "user", content: currPrompt };
       const aiMessage = { role: "assistant", content: "" };
-      const newMessages = [...messages, userMessage, aiMessage];
+      let newMessages = [...messages, userMessage, aiMessage];
       setMessages(newMessages);
 
       // Send the messages to the server and get the AI response
@@ -60,36 +65,19 @@ function App() {
 
       if (systemResponse.trim()) {
         const systemMessage = { role: "system", content: systemResponse };
-        setMessages([...newMessages, systemMessage]);
-      } else {
-        setMessages([...newMessages]);
+        newMessages = [...newMessages, systemMessage];
       }
+      setMessages([...newMessages]);
 
       // Save the conversation to the database
-      if (currConversationId !== '') {
-        axios.post(`http://localhost:5000/api/conversations/save`, {
-          currConversationId,
-          messages: messages,
-        });
-      }
-
+      await axios.post(`http://localhost:5000/api/conversations/save`, {
+        currConversationId: conversationId,
+        messages: newMessages,
+      });
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
-  // Fetch messages for the current conversation
-  useEffect(() => {
-    if (currConversationId !== '') {
-      axios.get(`http://localhost:5000/api/conversations/${currConversationId}`)
-        .then((response) => {
-          setMessages(response.data.messages);
-        })
-        .catch((error) => {
-          console.error('Error fetching messages:', error);
-        });
-    }
-  }, [currConversationId]);
 
 
   // Calls the Python speech-to-text service
@@ -115,9 +103,17 @@ function App() {
 
   const handleModelChange = (model: string) => {
     setSelectedModel(model);
-    console.log(`Model changed to: ${model}`);
-    // Additional logic to switch between models can be added here
   };
+
+  useEffect(() => {
+    if (currConversationId === '') return;
+    const fetchConversations = async () => {
+      const conversations = await axios.get(`http://localhost:5000/api/conversations/${currConversationId}`);
+      setMessages(conversations.data.messages);
+    };
+    fetchConversations();
+  }, [currConversationId]);
+
 
 
   return (

@@ -3,3 +3,33 @@
     height: 100vh;
     background-color: var(--secondary-color);
 }
+
+.conversations-container{
+    width: 100%;
+    height: auto;
+    padding: 5px;
+}
+
+.conversations-container div{
+    text-align: left;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.conversations-container ul{
+    list-style: none;
+    padding: 0;
+    
+}
+
+.conversations-container ul li{
+    width: 80%;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.conversations-container ul li:hover{
+    background-color: var(--primary-color);
+    color: white;
+}
