@@ -88,13 +88,13 @@ app.get("/api/conversations", async(req, res) => {
  */
 app.post("/api/conversations/save", async(req, res) => {
     try{
-        const {currConversationId, messages} = req.body;
-        if (!currConversationId || !messages) {
+        const {conversationId, messages} = req.body;
+        if (!conversationId || !messages) {
             return res.status(400).json({ error: 'Invalid request. Conversation ID and messages are required.' });
         }
 
         const conversations = await getStoredConversations();
-        conversations[currConversationId] = messages;
+        conversations[conversationId] = messages;
 
         await fs.writeFile(path.join(__dirname, 'data', 'conversations.json'), JSON.stringify(conversations, null, 2));
         return res.json({ message: "Conversation saved successfully." });

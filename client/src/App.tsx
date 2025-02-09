@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 import './App.css';
@@ -36,10 +36,10 @@ function App() {
       let conversationId = currConversationId;
 
       // If there is no conversation ID, create a new one
-      if (conversationId === '') {
-        const response = await axios.post('http://localhost:5000/api/conversations/new',
-          { messages: [SYSTEM_TEMPLATE] }
-        );
+      if (!conversationId) {
+        const response = await axios.post('http://localhost:5000/api/conversations/new', {
+          messages: [SYSTEM_TEMPLATE],
+        });
         conversationId = response.data.conversationId;
         setCurrConversationId(conversationId);
       }
@@ -58,22 +58,19 @@ function App() {
         model: selectedModel
       });
 
-      const aiResponse = response.data.aiResponse;
-      const systemResponse = response.data.systemResponse;
-
-      aiMessage.content = aiResponse;
-
-      if (systemResponse.trim()) {
-        const systemMessage = { role: "system", content: systemResponse };
+      aiMessage.content = response.data.aiResponse;
+      if (response.data.systemResponse.trim()) {
+        const systemMessage = { role: "system", content: response.data.systemResponse };
         newMessages = [...newMessages, systemMessage];
       }
-      setMessages([...newMessages]);
+      setMessages(newMessages);
 
       // Save the conversation to the database
-      await axios.post(`http://localhost:5000/api/conversations/save`, {
-        currConversationId: conversationId,
+      axios.post(`http://localhost:5000/api/conversations/save`, {
+        conversationId,
         messages: newMessages,
-      });
+      }).catch((error) => console.error("Error saving conversation:", error));
+
     } catch (error) {
       console.error('Error:', error);
     }
@@ -101,17 +98,33 @@ function App() {
     }
   }, [triggerInput]);
 
-  const handleModelChange = (model: string) => {
+  const handleModelChange = useCallback((model: string) => {
     setSelectedModel(model);
-  };
+  }, []);
+
 
   useEffect(() => {
-    if (currConversationId === '') return;
+    if (!currConversationId) return;
+
+    let isActive = true;
+
     const fetchConversations = async () => {
-      const conversations = await axios.get(`http://localhost:5000/api/conversations/${currConversationId}`);
-      setMessages(conversations.data.messages);
+      try {
+        const response = await axios.get(`http://localhost:5000/api/conversations/${currConversationId}`);
+
+        if (isActive) {
+          setMessages(response.data.messages);
+        }
+      } catch (error) {
+        if (isActive) console.error('Error fetching conversation:', error);
+      }
     };
+
     fetchConversations();
+
+    return () => {
+      isActive = false;
+    };
   }, [currConversationId]);
 
 
@@ -120,6 +133,7 @@ function App() {
     <div className="App">
       <div className="main-container">
         <SideBar setModel={handleModelChange} setCurrConversationId={setCurrConversationId} />
+
         <div className="chat-container">
           <ChatLog messages={messages.slice(1)} />
           <InputBar prompt={prompt} setPrompt={setPrompt} onSubmit={setTriggerInput} takeVoice={callPythonStt} />
